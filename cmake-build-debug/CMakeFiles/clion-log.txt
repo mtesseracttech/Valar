@@ -1,0 +1,8 @@
+"/Users/mtesseract/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/193.5662.56/CLion.app/Contents/bin/cmake/mac/bin/cmake" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/mtesseract/dev/cpp/Valcano
+-- Found GLFW 3.3, Including and Linking now
+-- Found Vulkan, Including and Linking now
+-- Vulkan Include dirs: /usr/local/include and libs: /usr/local/lib/libvulkan.dylib
+-- Found ASSIMP, Including and Linking now
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/mtesseract/dev/cpp/Valcano/cmake-build-debug
