@@ -40,8 +40,6 @@ if(GLFW_FOUND)
     target_link_libraries(Valcano ${GLFW_LIBRARIES})
 endif(GLFW_FOUND)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
-
 #Finding and linking Vulkan
 find_package (Vulkan)
 if (Vulkan_FOUND)

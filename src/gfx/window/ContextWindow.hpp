@@ -10,6 +10,7 @@
 #include <string>
 #include <memory>
 #include "GLFW/glfw3.h"
+#include "vulkan/vulkan.hpp"
 
 namespace mt::gfx{
 	class ContextWindow : public std::enable_shared_from_this<ContextWindow>  {
@@ -25,6 +26,12 @@ namespace mt::gfx{
 
 		bool should_close();
 		void process_events();
+
+		uint32_t get_width();
+		uint32_t get_height();
+
+		vk::Extent2D get_extent();
+
 	};
 }
 

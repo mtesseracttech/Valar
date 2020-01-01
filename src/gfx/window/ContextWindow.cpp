@@ -2,6 +2,7 @@
 // Created by MTesseracT on 30/12/2019.
 //
 
+#include <aux/logging/Logger.hpp>
 #include "ContextWindow.hpp"
 #include "aux/CallbackManager.hpp"
 #include "vulkan/vulkan.hpp"
@@ -25,15 +26,19 @@ namespace mt::gfx{
 		}
 
 		glfwGetWindowSize(window, &this->width, &this->height);
+
+		aux::Logger::log("Window initialized with a size of: " + std::to_string(this->width) + "x" + std::to_string(this->height));
 	}
 
 	GLFWwindow *ContextWindow::get_window() {
 		return window;
 	}
 
-	void ContextWindow::framebuffer_resized(uint32_t width, uint32_t height) {
-		std::cout << "Framebuffer Resized to: " << width << "x" << height << std::endl;
-	}
+	void ContextWindow::framebuffer_resized(uint32_t new_width, uint32_t new_height) {
+        width = static_cast<int>(new_width);
+        height = static_cast<int>(new_height);
+        aux::Logger::log("Framebuffer Resized to: " + std::to_string(width) + "x" + std::to_string(height));
+    }
 
 	bool ContextWindow::should_close() {
 		if(window){
@@ -47,4 +52,16 @@ namespace mt::gfx{
 			return glfwPollEvents();
 		}
 	}
+
+    uint32_t ContextWindow::get_width() {
+        return static_cast<uint32_t>(width);
+    }
+
+    uint32_t ContextWindow::get_height() {
+        return static_cast<uint32_t>(height);
+    }
+
+    vk::Extent2D ContextWindow::get_extent() {
+        return {get_width(), get_height()};
+    }
 }
