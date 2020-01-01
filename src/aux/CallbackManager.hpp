@@ -16,12 +16,12 @@ namespace mt::aux{
 		static std::map<GLFWwindow*, std::weak_ptr<gfx::ContextWindow>> window_callbacks;
 		//std::map<GLFWWindow*, std::shared_ptr<InputManager>> mouse_callback;
 		//std::map<GLFWWindow*, std::shared_ptr<InputManager>> keyboard_callback;
-
-
 		static void fb_resize_callback(GLFWwindow* window, int width, int height);
 
+		static void window_error_callback(int, const char *);
 	public:
 		static void register_window(std::weak_ptr<gfx::ContextWindow> window);
+		static void deregister_window(std::weak_ptr<gfx::ContextWindow> window);
 	};
 }
 

@@ -64,4 +64,11 @@ namespace mt::gfx{
     vk::Extent2D ContextWindow::get_extent() {
         return {get_width(), get_height()};
     }
+
+    ContextWindow::~ContextWindow() {
+	    if(window){
+            glfwDestroyWindow(window);
+        }
+        glfwTerminate();
+    }
 }

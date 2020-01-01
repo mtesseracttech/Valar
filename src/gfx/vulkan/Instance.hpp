@@ -5,10 +5,14 @@
 #ifndef VALCANO_INSTANCE_HPP
 #define VALCANO_INSTANCE_HPP
 
+#include "vulkan/vulkan.hpp"
+
 namespace mt::gfx::mtvk{
 	class Instance {
+	    vk::Instance instance;
 	public:
-		Instance();
+		explicit Instance(const std::string& app_name);
+		~Instance();
 	};
 }
 

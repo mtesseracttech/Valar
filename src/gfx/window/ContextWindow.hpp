@@ -21,6 +21,7 @@ namespace mt::gfx{
 
 	public:
 		ContextWindow(uint32_t width, uint32_t height, const std::string& window_title);
+		~ContextWindow();
 		void framebuffer_resized(uint32_t width, uint32_t height);
 		GLFWwindow * get_window();
 
@@ -31,7 +32,6 @@ namespace mt::gfx{
 		uint32_t get_height();
 
 		vk::Extent2D get_extent();
-
 	};
 }
 

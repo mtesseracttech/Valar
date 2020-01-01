@@ -15,7 +15,7 @@ namespace mt::gfx{
 		std::shared_ptr<mtvk::Instance> instance;
 
 	public:
-		Renderer(std::weak_ptr<ContextWindow> render_window);
+		Renderer(std::weak_ptr<ContextWindow> render_window, const std::string& app_name);
 	};
 }
 

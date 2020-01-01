@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <gfx/Renderer.hpp>
+#include <aux/logging/Logger.hpp>
 #include "gfx/window/ContextWindow.hpp"
 
 namespace mt{
@@ -14,7 +15,7 @@ namespace mt{
 		std::shared_ptr<gfx::ContextWindow> main_window;
 		std::shared_ptr<gfx::Renderer> renderer;
 	public:
-		ValcanoApplication(uint32_t win_width, uint32_t win_height, const std::string& win_name);
+		ValcanoApplication(uint32_t win_width, uint32_t win_height, const std::string& app_name);
 
 		void initialize();
 		void run();
@@ -22,14 +23,14 @@ namespace mt{
 }
 
 
-int main(int argc, const char** args){
-	mt::ValcanoApplication app(800, 600,"Test");
+int main(){
+	mt::ValcanoApplication app(800, 600,"Valcano");
 
 	try {
 		app.initialize();
 		app.run();
 	} catch (const std::exception& e) {
-		std::cerr << e.what() << std::endl;
+        mt::aux::Logger::log(e.what(), mt::aux::LogType::Error);
 		return EXIT_FAILURE;
 	}
 	return EXIT_SUCCESS;

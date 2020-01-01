@@ -5,7 +5,7 @@
 #include "Renderer.hpp"
 namespace mt::gfx {
 
-	Renderer::Renderer(std::weak_ptr<ContextWindow> render_window) : window(render_window){
-	    instance = std::make_shared<mtvk::Instance>();
+	Renderer::Renderer(std::weak_ptr<ContextWindow> render_window, const std::string& app_name) : window(render_window){
+	    instance = std::make_shared<mtvk::Instance>(app_name);
 	}
 }
