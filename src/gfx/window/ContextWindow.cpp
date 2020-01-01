@@ -5,6 +5,7 @@
 #include "ContextWindow.hpp"
 #include "aux/CallbackManager.hpp"
 #include "vulkan/vulkan.hpp"
+#include "GLFW/glfw3.h"
 
 namespace mt::gfx{
 
@@ -24,8 +25,6 @@ namespace mt::gfx{
 		}
 
 		glfwGetWindowSize(window, &this->width, &this->height);
-
-
 	}
 
 	GLFWwindow *ContextWindow::get_window() {

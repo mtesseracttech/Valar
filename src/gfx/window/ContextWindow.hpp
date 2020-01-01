@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <string>
+#include <memory>
 #include "GLFW/glfw3.h"
 
 namespace mt::gfx{

@@ -30,13 +30,15 @@ include_directories("${BASEPATH}")
 #Setting up PkgConfig
 find_package(PkgConfig REQUIRED)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
+
 #Finding and linking GLFW3
-find_package(glfw3 3.3 REQUIRED glfw3)
-if(glfw3_FOUND)
+find_package(GLFW REQUIRED)
+if(GLFW_FOUND)
     message(STATUS "Found GLFW 3.3, Including and Linking now")
-    include_directories(${GLFW3_INCLUDE_DIRS})
-    target_link_libraries(Valcano ${GLFW3_STATIC_LIBRARIES})
-endif(glfw3_FOUND)
+    include_directories(${GLFW_INCLUDE_DIR})
+    target_link_libraries(Valcano ${GLFW_LIBRARIES})
+endif(GLFW_FOUND)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
@@ -56,3 +58,9 @@ if(ASSIMP_FOUND)
     include_directories(${ASSIMP_INCLUDE_DIR})
     target_link_libraries (Valcano ${ASSIMP_LIBRARY})
 endif (ASSIMP_FOUND)
+
+#get_cmake_property(_variableNames VARIABLES)
+#list (SORT _variableNames)
+#foreach (_variableName ${_variableNames})
+#    message(STATUS "${_variableName}=${${_variableName}}")
+#endforeach()
