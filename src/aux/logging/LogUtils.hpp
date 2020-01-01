@@ -6,18 +6,9 @@
 #define MACH_LOGUTILS_HPP
 
 
-#if _WINDOWS
-#include <windows.h>
-#else
-
-#include <unistd.h>
-#include <limits.h>
-
-#endif
-
 #include <string>
 #include <sstream>
-#include <aux/exceptions/NotImplemented.hpp>
+#include <filesystem>
 
 namespace mt::aux {
 	template<typename T>
@@ -28,20 +19,7 @@ namespace mt::aux {
 	}
 
 	static std::string get_execution_path() {
-#if _WIN32
-        char buff[MAX_PATH];
-        GetModuleFileName(nullptr, buffer, MAX_PATH);
-        std::string::size_type pos = string( buffer ).find_last_of( "\\/" );
-        return std::string(buff).substr( 0, pos);
-#else
-		char buff[PATH_MAX];
-		ssize_t len = ::readlink("/proc/self/exe", buff, sizeof(buff) - 1);
-		if (len != -1) {
-			buff[len] = '\0';
-			return std::string(buff);
-		}
-#endif
-		return std::string();
+	    return std::filesystem::current_path().string();
 	}
 }
 
