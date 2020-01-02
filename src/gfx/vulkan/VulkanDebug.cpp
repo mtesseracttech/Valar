@@ -11,14 +11,16 @@ namespace mt::gfx::mtvk {
 	VulkanDebug::VulkanDebug(const std::shared_ptr<Instance>& instance, bool verbose_mode) {
 		assert(instance);
 
+		this->instance = instance;
+
 		vk::DebugUtilsMessengerCreateInfoEXT create_info;
 		create_info.messageSeverity = vk::DebugUtilsMessageSeverityFlagBitsEXT::eVerbose |
-				vk::DebugUtilsMessageSeverityFlagBitsEXT::eWarning |
-				vk::DebugUtilsMessageSeverityFlagBitsEXT::eError;
+									  vk::DebugUtilsMessageSeverityFlagBitsEXT::eWarning |
+									  vk::DebugUtilsMessageSeverityFlagBitsEXT::eError;
 		if(verbose_mode) create_info.messageSeverity |= vk::DebugUtilsMessageSeverityFlagBitsEXT::eInfo;
 		create_info.messageType = vk::DebugUtilsMessageTypeFlagBitsEXT ::eGeneral |
-				vk::DebugUtilsMessageTypeFlagBitsEXT ::eValidation |
-				vk::DebugUtilsMessageTypeFlagBitsEXT ::ePerformance;
+								  vk::DebugUtilsMessageTypeFlagBitsEXT ::eValidation |
+								  vk::DebugUtilsMessageTypeFlagBitsEXT ::ePerformance;
 		create_info.pfnUserCallback = vulkan_debug_callback;
 		create_info.pUserData = this;
 
@@ -26,7 +28,7 @@ namespace mt::gfx::mtvk {
 			throw std::runtime_error("Failed to set up debug messenger!");
 		}
 
-		aux::Logger::log("Set up Vulkan debug messenger", aux::LogType::Info);
+		aux::Logger::log("Set up Vulkan Debug Messenger", aux::LogType::Info);
 	}
 
 	vk::Result VulkanDebug::create_debug_utils_messenger_ext(vk::Instance instance,
@@ -46,6 +48,17 @@ namespace mt::gfx::mtvk {
 		}
 	}
 
+	void VulkanDebug::destroy_debug_utils_messenger_ext(vk::Instance instance,
+	                                                    vk::DebugUtilsMessengerEXT debug_messenger,
+	                                                    const vk::AllocationCallbacks * allocator) {
+		auto func = (PFN_vkDestroyDebugUtilsMessengerEXT) instance.getProcAddr("vkDestroyDebugUtilsMessengerEXT");
+		if (func != nullptr) {
+			func(instance,
+					static_cast<VkDebugUtilsMessengerEXT>(debug_messenger),
+					reinterpret_cast<const VkAllocationCallbacks *>(allocator));
+		}
+	}
+
 	vk::Bool32 VulkanDebug::vulkan_debug_callback(VkDebugUtilsMessageSeverityFlagBitsEXT vk_message_severity,
 	                                            VkDebugUtilsMessageTypeFlagsEXT vk_message_type,
 	                                            const VkDebugUtilsMessengerCallbackDataEXT * vk_callback_data,
@@ -53,7 +66,6 @@ namespace mt::gfx::mtvk {
 		auto message_severity         = vk::DebugUtilsMessageSeverityFlagsEXT(vk_message_severity);
 		auto message_type             = vk::DebugUtilsMessageTypeFlagsEXT(vk_message_type);
 		auto message_callback_data    = vk::DebugUtilsMessengerCallbackDataEXT(*vk_callback_data);
-		auto message_user_data        = (VulkanDebug*)vk_user_data;
 
 		aux::LogType log_level = aux::LogType::Info;
 		if((uint32_t)message_severity >= (uint32_t)vk::DebugUtilsMessageSeverityFlagBitsEXT::eWarning){
@@ -73,5 +85,11 @@ namespace mt::gfx::mtvk {
 		aux::Logger::log(message_callback_data.pMessage, log_level);
 
 		return false;
+	}
+
+	VulkanDebug::~VulkanDebug() {
+		assert(instance);
+		aux::Logger::log("Destroyed Vulkan Debug Messenger", aux::LogType::Info);
+		destroy_debug_utils_messenger_ext(instance->get_instance(), debug_messenger, nullptr);
 	}
 }

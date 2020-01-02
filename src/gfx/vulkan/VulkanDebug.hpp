@@ -10,6 +10,8 @@
 namespace mt::gfx::mtvk {
 	class VulkanDebug {
 
+	protected:
+		std::shared_ptr<Instance> instance;
 		vk::DebugUtilsMessengerEXT debug_messenger;
 
 
@@ -25,8 +27,15 @@ namespace mt::gfx::mtvk {
 				const vk::AllocationCallbacks * allocator,
 				vk::DebugUtilsMessengerEXT * debug_messenger);
 
+		void destroy_debug_utils_messenger_ext(
+				vk::Instance instance,
+				vk::DebugUtilsMessengerEXT debug_messenger,
+				const vk::AllocationCallbacks * allocator);
+
+
 	public:
 		explicit VulkanDebug(const std::shared_ptr<Instance>& instance, bool verbose_mode = false);
+		~VulkanDebug();
 	};
 }
 
