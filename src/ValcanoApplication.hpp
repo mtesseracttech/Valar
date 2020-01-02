@@ -24,7 +24,7 @@ namespace mt{
 
 
 int main(){
-	mt::ValcanoApplication app(800, 600,"Valcano");
+	mt::ValcanoApplication app(800, 600,"Valcano Testing");
 
 	try {
 		app.initialize();

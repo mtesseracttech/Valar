@@ -8,10 +8,12 @@
 #include <gfx/vulkan/Instance.hpp>
 #include <memory>
 #include <gfx/window/ContextWindow.hpp>
+#include <gfx/vulkan/VulkanDebug.hpp>
 
 namespace mt::gfx{
 	class Renderer {
 		std::weak_ptr<ContextWindow> window;
+		std::shared_ptr<mtvk::VulkanDebug> debugging;
 		std::shared_ptr<mtvk::Instance> instance;
 
 	public:
