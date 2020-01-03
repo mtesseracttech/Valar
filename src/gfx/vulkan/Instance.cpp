@@ -77,6 +77,7 @@ namespace mt::gfx::mtvk {
 			}
 
 			if (!layerFound) {
+                aux::Logger::log("Could not find the validation layer: " + std::string(val_layer), aux::LogType::Error);
 				return false;
 			}
 		}

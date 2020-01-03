@@ -4,7 +4,7 @@
 
 #include <aux/logging/Logger.hpp>
 #include <iostream>
-#include <util/StringUtils.hpp>
+#include <util/stringutils.hpp>
 #include "VulkanDebug.hpp"
 
 namespace mt::gfx::mtvk {

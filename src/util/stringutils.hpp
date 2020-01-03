@@ -6,6 +6,7 @@
 #define VALCANO_STRINGUTILS_HPP
 
 #include <string>
+#include <algorithm>
 
 namespace mt::util{
 	class StringUtils {
