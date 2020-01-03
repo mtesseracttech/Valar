@@ -29,6 +29,7 @@ namespace mt::gfx::mtvk{
 	public:
 		explicit Instance(const std::string& app_name);
 		bool has_validation_layers() const;
+        std::vector<const char*> get_validation_layers() const;
 
 		vk::Instance get_instance();
 

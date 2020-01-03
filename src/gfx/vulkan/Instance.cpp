@@ -55,7 +55,8 @@ namespace mt::gfx::mtvk {
 	}
 
 	Instance::~Instance() {
-		instance.destroy();
+        aux::Logger::log("Destroyed Vulkan Instance", aux::LogType::Info);
+        instance.destroy();
 	}
 
 	bool Instance::check_validation_layer_support() {
@@ -104,4 +105,8 @@ namespace mt::gfx::mtvk {
 	bool Instance::has_validation_layers() const {
 		return validation_layers_enabled;
 	}
+
+    std::vector<const char *> Instance::get_validation_layers() const {
+        return validation_layers;
+    }
 }

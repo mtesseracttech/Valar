@@ -67,6 +67,7 @@ namespace mt::gfx{
 
     ContextWindow::~ContextWindow() {
 	    if(window){
+            aux::Logger::log("Destroyed the Window", aux::LogType::Info);
             glfwDestroyWindow(window);
         }
         glfwTerminate();

@@ -7,33 +7,49 @@
 
 #include <optional>
 #include "Instance.hpp"
+#include "Surface.hpp"
 
 namespace mt::gfx::mtvk {
 	class Device {
 		struct QueueFamilyIndices{
 			std::optional<uint32_t> graphics_family;
+            std::optional<uint32_t> present_family;
 
 			bool is_complete() {
-				return graphics_family.has_value();
+				return graphics_family.has_value() && present_family.has_value();
 			}
 		};
+
 
 		std::shared_ptr<Instance> instance;
 
 		vk::PhysicalDevice physical_device;
 		vk::Device device;
 
-		vk::PhysicalDeviceFeatures features;
-		vk::PhysicalDeviceProperties properties;
+        vk::PhysicalDeviceFeatures features;
+        vk::PhysicalDeviceProperties properties;
 
-		vk::PhysicalDevice select_best_physical_device(std::vector<vk::PhysicalDevice> physical_devices);
+        QueueFamilyIndices indices;
+
+        vk::Queue graphics_queue;
+		vk::Queue present_queue;
+
+
+		vk::PhysicalDevice select_best_physical_device(std::vector<vk::PhysicalDevice> physical_devices,  const vk::SurfaceKHR& surface);
+
 		int rate_physical_device(const vk::PhysicalDevice& device);
-		bool is_physical_device_suitable(const vk::PhysicalDevice& device);
-		QueueFamilyIndices find_queue_families(const vk::PhysicalDevice& device);
-	public:
-		Device(const std::shared_ptr<Instance> &instance);
+
+		bool is_physical_device_suitable(const vk::PhysicalDevice& device, const vk::SurfaceKHR& surface);
+
+        vk::Device create_logical_device(const vk::PhysicalDevice &physical_device, const std::shared_ptr<Instance> &instance,  const vk::SurfaceKHR& surface);
+
+        QueueFamilyIndices find_queue_families(const vk::PhysicalDevice& device,  const vk::SurfaceKHR& surface);
+
+    public:
+		Device(const std::shared_ptr<Instance> &instance, const std::shared_ptr<Surface>& surface);
 		~Device();
-	};
+
+    };
 }
 
 
