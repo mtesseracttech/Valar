@@ -88,7 +88,6 @@ namespace mt::gfx::mtvk {
 	}
 
 	VulkanDebug::~VulkanDebug() {
-		assert(instance);
 		aux::Logger::log("Destroyed Vulkan Debug Messenger", aux::LogType::Info);
 		destroy_debug_utils_messenger_ext(instance->get_instance(), debug_messenger, nullptr);
 	}

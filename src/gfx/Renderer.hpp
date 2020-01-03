@@ -9,12 +9,14 @@
 #include <memory>
 #include <gfx/window/ContextWindow.hpp>
 #include <gfx/vulkan/VulkanDebug.hpp>
+#include <gfx/vulkan/Device.hpp>
 
 namespace mt::gfx{
 	class Renderer {
 		std::weak_ptr<ContextWindow> window;
 		std::shared_ptr<mtvk::VulkanDebug> debugging;
 		std::shared_ptr<mtvk::Instance> instance;
+		std::shared_ptr<mtvk::Device> device;
 
 	public:
 		Renderer(const std::weak_ptr<ContextWindow>& render_window, const std::string& app_name);
