@@ -16,9 +16,10 @@ namespace mt::gfx {
 
 	    surface = std::make_shared<mtvk::Surface>(render_window, instance);
 	    device = std::make_shared<mtvk::Device>(instance, surface);
+	    swapchain = std::make_shared<mtvk::Swapchain>(device , surface, window);
 	}
 
-	Renderer::~Renderer() {
+    Renderer::~Renderer() {
 
-	}
+    }
 }

@@ -12,6 +12,7 @@
 #include <gfx/vulkan/VulkanDebug.hpp>
 #include <gfx/vulkan/Device.hpp>
 #include <gfx/vulkan/Surface.hpp>
+#include <gfx/vulkan/Swapchain.hpp>
 
 namespace mt::gfx{
 	class Renderer {
@@ -20,6 +21,7 @@ namespace mt::gfx{
 		std::shared_ptr<mtvk::Instance> instance;
 		std::shared_ptr<mtvk::Device> device;
 		std::shared_ptr<mtvk::Surface> surface;
+		std::shared_ptr<mtvk::Swapchain> swapchain;
 
 	public:
 		Renderer(const std::shared_ptr<ContextWindow>& render_window, const std::string& app_name);

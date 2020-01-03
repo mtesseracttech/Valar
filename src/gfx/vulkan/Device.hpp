@@ -20,6 +20,9 @@ namespace mt::gfx::mtvk {
 			}
 		};
 
+        const std::vector<const char*> device_extensions = {
+                VK_KHR_SWAPCHAIN_EXTENSION_NAME
+        };
 
 		std::shared_ptr<Instance> instance;
 
@@ -33,7 +36,6 @@ namespace mt::gfx::mtvk {
 
         vk::Queue graphics_queue;
 		vk::Queue present_queue;
-
 
 		vk::PhysicalDevice select_best_physical_device(std::vector<vk::PhysicalDevice> physical_devices,  const vk::SurfaceKHR& surface);
 
@@ -49,6 +51,12 @@ namespace mt::gfx::mtvk {
 		Device(const std::shared_ptr<Instance> &instance, const std::shared_ptr<Surface>& surface);
 		~Device();
 
+        bool check_device_extension_support(const vk::PhysicalDevice &device);
+
+        vk::Device get_device();
+        vk::PhysicalDevice get_physical_device();
+
+        QueueFamilyIndices get_queue_indices();
     };
 }
 

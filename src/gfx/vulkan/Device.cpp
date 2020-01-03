@@ -106,9 +106,19 @@ namespace mt::gfx::mtvk {
 	}
 
 	bool Device::is_physical_device_suitable(const vk::PhysicalDevice& physical_device, const vk::SurfaceKHR& surface){
-		auto indices = find_queue_families(physical_device, surface);
+		auto queue_indices = find_queue_families(physical_device, surface);
 
-		return indices.is_complete();
+		bool extensions_supported = check_device_extension_support(physical_device);
+
+		bool swapchain_adequate = false;
+		if(extensions_supported){
+            //auto capabilities = physical_device.getSurfaceCapabilitiesKHR(surface);
+            auto formats = physical_device.getSurfaceFormatsKHR(surface);
+            auto present_modes = physical_device.getSurfacePresentModesKHR(surface);
+            swapchain_adequate = !formats.empty() && !present_modes.empty();
+        }
+
+		return queue_indices.is_complete() && extensions_supported && swapchain_adequate;
 	}
 
     vk::Device Device::create_logical_device(const vk::PhysicalDevice &physical_device,
@@ -135,12 +145,13 @@ namespace mt::gfx::mtvk {
         create_info.queueCreateInfoCount = queue_create_infos.size();
         create_info.pQueueCreateInfos = queue_create_infos.data();
         create_info.pEnabledFeatures = &device_features;
-        create_info.enabledExtensionCount = 0;
+        create_info.enabledExtensionCount = device_extensions.size();
+        create_info.ppEnabledExtensionNames = device_extensions.data();
 
         auto validation_layers = instance->get_validation_layers();
 
         if (instance->has_validation_layers()) {
-            create_info.enabledLayerCount = static_cast<uint32_t>(validation_layers.size());
+            create_info.enabledLayerCount = validation_layers.size();
             create_info.ppEnabledLayerNames = validation_layers.data();
         } else {
             create_info.enabledLayerCount = 0;
@@ -148,4 +159,28 @@ namespace mt::gfx::mtvk {
 
         return physical_device.createDevice(create_info);
     }
+
+    bool Device::check_device_extension_support(const vk::PhysicalDevice &device) {
+        auto available_extensions = device.enumerateDeviceExtensionProperties();
+        std::set<std::string> required_extensions(device_extensions.begin(), device_extensions.end());
+
+        for (const auto& extension : available_extensions) {
+            required_extensions.erase(extension.extensionName);
+        }
+
+        return required_extensions.empty();
+    }
+
+    vk::Device Device::get_device() {
+        return device;
+    }
+
+    vk::PhysicalDevice Device::get_physical_device() {
+        return physical_device;
+    }
+
+    Device::QueueFamilyIndices Device::get_queue_indices() {
+        return indices;
+    }
+
 }
