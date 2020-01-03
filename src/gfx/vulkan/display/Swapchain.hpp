@@ -24,7 +24,7 @@ namespace mt::gfx::mtvk {
         vk::PresentModeKHR choose_swap_present_mode(const std::vector<vk::PresentModeKHR>& available_modes);
         vk::Extent2D choose_swap_extent(const vk::SurfaceCapabilitiesKHR& capabilities, const std::shared_ptr<ContextWindow>& window);
 
-        std::vector<vk::ImageView> create_image_views();
+        void create_image_views();
 
         void destroy_image_views();
     public:

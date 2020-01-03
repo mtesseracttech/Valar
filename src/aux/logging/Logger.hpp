@@ -8,7 +8,7 @@
 
 #include <ostream>
 #include <string>
-#include "LogUtils.hpp"
+#include "util/StringUtils.hpp"
 
 namespace mt::aux {
 	enum LogLevel {
@@ -45,7 +45,7 @@ namespace mt::aux {
 
 		template<typename T>
 		static void log(const T &p_message_object, LogType p_level = Info) {
-			log(to_str(p_message_object), p_level);
+			log(util::string::to_str(p_message_object), p_level);
 		}
 
 		static void set_log_level(LogLevel p_level);

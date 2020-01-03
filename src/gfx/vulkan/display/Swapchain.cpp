@@ -61,7 +61,7 @@ namespace mt::gfx::mtvk {
         image_format = surface_format.format;
         extent = swapchain_extent;
 
-        image_views = create_image_views();
+        create_image_views();
     }
 
 
@@ -102,7 +102,7 @@ namespace mt::gfx::mtvk {
         }
     }
 
-    std::vector<vk::ImageView> Swapchain::create_image_views() {
+    void Swapchain::create_image_views() {
         image_views.resize(images.size());
         for (size_t i = 0; i < images.size(); i++) {
             vk::ImageViewCreateInfo create_info;

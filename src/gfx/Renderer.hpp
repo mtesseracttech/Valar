@@ -7,12 +7,12 @@
 
 #include <memory>
 
-#include <gfx/vulkan/Instance.hpp>
+#include <gfx/vulkan/display/Instance.hpp>
 #include <gfx/window/ContextWindow.hpp>
-#include <gfx/vulkan/VulkanDebug.hpp>
-#include <gfx/vulkan/Device.hpp>
-#include <gfx/vulkan/Surface.hpp>
-#include <gfx/vulkan/Swapchain.hpp>
+#include <gfx/vulkan/debug/VulkanDebug.hpp>
+#include <gfx/vulkan/display/Device.hpp>
+#include <gfx/vulkan/display/Surface.hpp>
+#include <gfx/vulkan/display/Swapchain.hpp>
 
 namespace mt::gfx{
 	class Renderer {

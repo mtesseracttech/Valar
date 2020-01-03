@@ -5,7 +5,7 @@
 #ifndef VALCANO_VULKANDEBUG_HPP
 #define VALCANO_VULKANDEBUG_HPP
 
-#include "Instance.hpp"
+#include "gfx/vulkan/display/Instance.hpp"
 
 namespace mt::gfx::mtvk {
 	class VulkanDebug {

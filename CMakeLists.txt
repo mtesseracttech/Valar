@@ -56,7 +56,7 @@ source_group("Shaders" FILES ${PROJECT_SHADERS})
 add_definitions(-DGLFW_INCLUDE_NONE
                 -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\")
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS}
-               ${PROJECT_SHADERS} ${PROJECT_CONFIGS} src/gfx/vulkan/VulkanDebug.cpp src/gfx/vulkan/VulkanDebug.hpp)
+               ${PROJECT_SHADERS} ${PROJECT_CONFIGS})
 
 target_link_libraries(${PROJECT_NAME} assimp glfw ${GLFW_LIBRARIES})
 

@@ -43,7 +43,7 @@ namespace mt::gfx::mtvk {
 		std::stringstream inst_info;
 		inst_info << "Vulkan Instance Version: " << VK_VERSION_MAJOR(instance_version) <<
 		          '.' << VK_VERSION_MINOR(instance_version) <<
-		          '.' << VK_VERSION_PATCH(instance_version) << std::endl;
+		          '.' << VK_VERSION_PATCH(instance_version);
 		aux::Logger::log(inst_info, aux::LogType::Info);
 
 		std::vector<vk::ExtensionProperties> available_instance_extensions = vk::enumerateInstanceExtensionProperties();
