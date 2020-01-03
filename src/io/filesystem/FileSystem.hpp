@@ -2,8 +2,8 @@
 // Created by mtesseract on 03-01-20.
 //
 
-#ifndef VALCANO_METAFILESYSTEM_HPP
-#define VALCANO_METAFILESYSTEM_HPP
+#ifndef VALCANO_FILESYSTEM_HPP
+#define VALCANO_FILESYSTEM_HPP
 
 #include <filesystem>
 #include <string>
@@ -14,4 +14,4 @@ namespace mt::io {
     }
 }
 
-#endif //VALCANO_METAFILESYSTEM_HPP
+#endif //VALCANO_FILESYSTEM_HPP

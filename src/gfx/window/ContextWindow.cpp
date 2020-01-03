@@ -4,7 +4,7 @@
 
 #include <aux/logging/Logger.hpp>
 #include "ContextWindow.hpp"
-#include "aux/CallbackManager.hpp"
+#include "WindowCallbackManager.hpp"
 #include "vulkan/vulkan.hpp"
 #include "GLFW/glfw3.h"
 
@@ -27,7 +27,9 @@ namespace mt::gfx{
 
 		glfwGetWindowSize(window, &this->width, &this->height);
 
-		aux::Logger::log("Window initialized with a size of: " + std::to_string(this->width) + "x" + std::to_string(this->height));
+		title = window_title;
+
+		aux::Logger::log("Window " + window_title + " initialized with a size of: " + std::to_string(this->width) + "x" + std::to_string(this->height));
 	}
 
 	GLFWwindow *ContextWindow::get_window() {
@@ -69,7 +71,14 @@ namespace mt::gfx{
 	    if(window){
             aux::Logger::log("Destroyed the Window", aux::LogType::Info);
             glfwDestroyWindow(window);
+            window = nullptr;
         }
+        width = 0;
+        height = 0;
         glfwTerminate();
+    }
+
+    std::string ContextWindow::get_title() {
+        return title;
     }
 }

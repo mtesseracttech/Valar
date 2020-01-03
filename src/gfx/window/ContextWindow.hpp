@@ -19,6 +19,8 @@ namespace mt::gfx{
 		int height = 0;
 		GLFWwindow * window = nullptr;
 
+		std::string title;
+
 	public:
 		ContextWindow(uint32_t width, uint32_t height, const std::string& window_title);
 		~ContextWindow();
@@ -32,6 +34,8 @@ namespace mt::gfx{
 		uint32_t get_height();
 
 		vk::Extent2D get_extent();
+
+		std::string get_title();
 	};
 }
 
