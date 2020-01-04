@@ -67,6 +67,8 @@ namespace mt::gfx::mtvk {
 		auto message_type             = vk::DebugUtilsMessageTypeFlagsEXT(vk_message_type);
 		auto message_callback_data    = vk::DebugUtilsMessengerCallbackDataEXT(*vk_callback_data);
 
+        (void)vk_user_data; //To get the compiler to stop complaining about an unused variable.
+
 		aux::LogType log_level = aux::LogType::Info;
 		if((uint32_t)message_severity >= (uint32_t)vk::DebugUtilsMessageSeverityFlagBitsEXT::eWarning){
 			log_level = aux::LogType ::Error;

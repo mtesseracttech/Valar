@@ -43,8 +43,9 @@ namespace mt::gfx{
     }
 
     void WindowCallbackManager::window_error_callback(int error_code, const char * error_message) {
+
 	    std::stringstream ss;
-	    ss << "[GLFW] " << error_message;
+	    ss << "[GLFW-" << error_code << "] " << error_message;
         aux::Logger::log(ss, aux::LogType::Error);
     }
 
