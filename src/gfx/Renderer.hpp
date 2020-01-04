@@ -13,6 +13,7 @@
 #include <gfx/vulkan/display/Device.hpp>
 #include <gfx/vulkan/display/Surface.hpp>
 #include <gfx/vulkan/display/Swapchain.hpp>
+#include <gfx/vulkan/shaders/ShaderModule.hpp>
 
 namespace mt::gfx{
 	class Renderer {

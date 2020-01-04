@@ -17,6 +17,8 @@ namespace mt::gfx {
 	    surface = std::make_shared<mtvk::Surface>(render_window, instance);
 	    device = std::make_shared<mtvk::Device>(instance, surface);
 	    swapchain = std::make_shared<mtvk::Swapchain>(device , surface, window);
+
+	    auto test_shader = mtvk::ShaderModule("base", device);
 	}
 
     Renderer::~Renderer() {

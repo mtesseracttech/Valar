@@ -40,7 +40,9 @@ file(GLOB_RECURSE PROJECT_SHADERS
         res/shaders/*.comp
         res/shaders/*.frag
         res/shaders/*.geom
-        res/shaders/*.vert)
+        res/shaders/*.vert
+        res/shaders/*.tese
+        res/shaders/*.tesc)
 
 file(GLOB PROJECT_CONFIGS CMakeLists.txt
         README.md
@@ -74,5 +76,5 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 add_custom_command(
         TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/res/shaders $<TARGET_FILE_DIR:${PROJECT_NAME}>
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/res $<TARGET_FILE_DIR:${PROJECT_NAME}>
         DEPENDS ${PROJECT_SHADERS})
