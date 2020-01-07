@@ -5,6 +5,9 @@
 #include <io/filesystem/FileSystem.hpp>
 #include <map>
 #include <aux/logging/Logger.hpp>
+#include <spirv_cross.hpp>
+#include <spirv_glsl.hpp>
+#include <glslang/Public/ShaderLang.h>
 #include "ShaderModule.hpp"
 
 namespace mt::gfx::mtvk {

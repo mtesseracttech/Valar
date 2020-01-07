@@ -24,6 +24,17 @@ option(ASSIMP_BUILD_SAMPLES OFF)
 option(ASSIMP_BUILD_TESTS OFF)
 add_subdirectory(libs/assimp)
 
+#Adding glslang
+option(BUILD_TESTING OFF)
+option(ENABLE_CTEST OFF)
+add_subdirectory(libs/glslang)
+
+#Adding SPIRV-Cross
+option(SPIRV_CROSS_ENABLE_C_API OFF)
+option(SPIRV_CROSS_CLI OFF)
+option(SPIRV_CROSS_ENABLE_TESTS OFF)
+add_subdirectory(libs/spirv_cross)
+
 if(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 else()
@@ -32,7 +43,9 @@ endif()
 
 include_directories(src/
                     libs/assimp/include/
-                    libs/glfw/include/)
+                    libs/glfw/include/
+                    libs/spirv_cross/include
+                    libs/glslang/glslang/public)
 
 file(GLOB_RECURSE PROJECT_HEADERS src/*.hpp)
 file(GLOB_RECURSE PROJECT_SOURCES src/*.cpp)
@@ -60,7 +73,7 @@ add_definitions(-DGLFW_INCLUDE_NONE
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS}
                ${PROJECT_SHADERS} ${PROJECT_CONFIGS})
 
-target_link_libraries(${PROJECT_NAME} assimp glfw ${GLFW_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} assimp glfw spirv-cross-core glslang ${GLFW_LIBRARIES})
 
 #Finding and linking Vulkan
 find_package (Vulkan)
@@ -78,3 +91,4 @@ add_custom_command(
         TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/res $<TARGET_FILE_DIR:${PROJECT_NAME}>
         DEPENDS ${PROJECT_SHADERS})
+
