@@ -4,12 +4,13 @@ Newest attempt at doing something fun with Vulkan and GLFW, but on my own accord
 ## Dependencies:
 - GLFW (as submodule)
 - ASSIMP (as submodule)
+- shaderc (as submodule)
 - LunarG's Vulkan SDK
-
 
 ## Installation
 
 Clone this repository recursively (or clone it and then separately init the submodules)
+Also run the `git-sync-deps` file in `libs/shaderc/utils`
 
 ### Linux:
 - Download and extract the LunarG SDK

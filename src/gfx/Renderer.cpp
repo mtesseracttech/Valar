@@ -18,7 +18,7 @@ namespace mt::gfx {
 	    device = std::make_shared<mtvk::Device>(instance, surface);
 	    swapchain = std::make_shared<mtvk::Swapchain>(device , surface, window);
 
-	    auto test_shader = mtvk::ShaderModule("base", device);
+	    auto test_shader = mtvk::ShaderModule("base", device, mtvk::ShaderModuleType::GLSL);
 	}
 
     Renderer::~Renderer() {

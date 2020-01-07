@@ -1,4 +1,3 @@
-#Took Glitter's cmake file as a base
 cmake_minimum_required(VERSION 3.9)
 project(Valcano)
 
@@ -24,16 +23,16 @@ option(ASSIMP_BUILD_SAMPLES OFF)
 option(ASSIMP_BUILD_TESTS OFF)
 add_subdirectory(libs/assimp)
 
-#Adding glslang
+#Adding shaderc
 option(BUILD_TESTING OFF)
+option(BUILD_GMOCK OFF)
 option(ENABLE_CTEST OFF)
-add_subdirectory(libs/glslang)
+option(EEFCEE_BUILD_SAMPLES OFF)
+option(EEFCEE_BUILD_TESTING OFF)
+option(INSTALL_GTEST OFF)
 
-#Adding SPIRV-Cross
-option(SPIRV_CROSS_ENABLE_C_API OFF)
-option(SPIRV_CROSS_CLI OFF)
-option(SPIRV_CROSS_ENABLE_TESTS OFF)
-add_subdirectory(libs/spirv_cross)
+add_subdirectory(libs/shaderc)
+
 
 if(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
@@ -44,8 +43,7 @@ endif()
 include_directories(src/
                     libs/assimp/include/
                     libs/glfw/include/
-                    libs/spirv_cross/include
-                    libs/glslang/glslang/public)
+                    libs/shaderc/)
 
 file(GLOB_RECURSE PROJECT_HEADERS src/*.hpp)
 file(GLOB_RECURSE PROJECT_SOURCES src/*.cpp)
@@ -73,14 +71,14 @@ add_definitions(-DGLFW_INCLUDE_NONE
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS}
                ${PROJECT_SHADERS} ${PROJECT_CONFIGS})
 
-target_link_libraries(${PROJECT_NAME} assimp glfw spirv-cross-core glslang ${GLFW_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} assimp glfw shaderc ${GLFW_LIBRARIES})
 
 #Finding and linking Vulkan
 find_package (Vulkan)
 if (Vulkan_FOUND)
     message(STATUS "Found Vulkan, Including and Linking now")
     include_directories(${Vulkan_INCLUDE_DIRS})
-    target_link_libraries (Valcano ${Vulkan_LIBRARIES})
+    target_link_libraries (${PROJECT_NAME} ${Vulkan_LIBRARIES})
     message(STATUS "Vulkan Include dirs: ${Vulkan_INCLUDE_DIRS} and libs: ${Vulkan_LIBRARIES}")
 endif (Vulkan_FOUND)
 
@@ -91,4 +89,3 @@ add_custom_command(
         TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/res $<TARGET_FILE_DIR:${PROJECT_NAME}>
         DEPENDS ${PROJECT_SHADERS})
-

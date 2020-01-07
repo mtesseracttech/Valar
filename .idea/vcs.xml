@@ -4,5 +4,15 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/libs/assimp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/libs/glfw" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/glslang" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/shaderc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/shaderc/third_party/effcee" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/shaderc/third_party/glslang" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/shaderc/third_party/googletest" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/shaderc/third_party/re2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/shaderc/third_party/spirv-cross" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/shaderc/third_party/spirv-headers" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/shaderc/third_party/spirv-tools" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/spirv_cross" vcs="Git" />
   </component>
 </project>

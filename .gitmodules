@@ -4,12 +4,6 @@
 [submodule "libs/assimp"]
 	path = libs/assimp
 	url = https://github.com/assimp/assimp.git
-[submodule "libs/spirv_cross"]
-	path = libs/spirv_cross
-	url = https://github.com/KhronosGroup/SPIRV-Cross
-[submodule "libs/glslang"]
-	path = libs/glslang
-	url = https://github.com/KhronosGroup/glslang.git
 [submodule "libs/shaderc"]
 	path = libs/shaderc
 	url = https://github.com/google/shaderc.git
