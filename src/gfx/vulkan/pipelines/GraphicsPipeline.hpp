@@ -5,10 +5,21 @@
 #ifndef VALCANO_GRAPHICSPIPELINE_HPP
 #define VALCANO_GRAPHICSPIPELINE_HPP
 
+#include <gfx/vulkan/shaders/Shader.hpp>
+#include <gfx/vulkan/display/Swapchain.hpp>
+
 namespace mt::gfx::mtvk {
     class GraphicsPipeline {
+        Shader shader;
+        std::shared_ptr<Device> device;
 
+        vk::PipelineLayout pipeline_layout;
+
+    public:
+        GraphicsPipeline(const Shader& shader, const std::shared_ptr<Device>& device, const std::weak_ptr<Swapchain>& swapchain);
+        ~GraphicsPipeline();
     };
+
 }
 
 #endif //VALCANO_GRAPHICSPIPELINE_HPP

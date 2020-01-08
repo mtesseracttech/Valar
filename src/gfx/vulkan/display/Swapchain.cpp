@@ -127,4 +127,8 @@ namespace mt::gfx::mtvk {
             if(image_view) device->get_device().destroyImageView(image_view);
         }
     }
+
+    vk::Extent2D Swapchain::get_extent() {
+        return extent;
+    }
 }

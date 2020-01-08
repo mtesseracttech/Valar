@@ -31,7 +31,7 @@ namespace mt::gfx::mtvk {
         Swapchain(const std::shared_ptr<Device>& device, const std::shared_ptr<Surface>& surface,  const std::shared_ptr<ContextWindow>& window);
         ~Swapchain();
 
-
+        vk::Extent2D get_extent();
     };
 }
 

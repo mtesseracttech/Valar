@@ -61,6 +61,8 @@ namespace mt::gfx::mtvk{
 
         vk::ShaderModule create_shader_module(const uint32_t* data, uint32_t size);
 
+        std::vector<vk::PipelineShaderStageCreateInfo> generate_shader_stage_create_infos();
+
     public:
         Shader(const std::string& module_name, const std::shared_ptr<Device>& device, ShaderSourceType module_type);
         ~Shader();
