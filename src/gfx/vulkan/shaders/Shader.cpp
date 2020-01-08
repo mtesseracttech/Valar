@@ -5,6 +5,7 @@
 #include <io/filesystem/FileSystem.hpp>
 #include <map>
 #include <aux/logging/Logger.hpp>
+#include <aux/exceptions/NotImplemented.hpp>
 #include "Shader.hpp"
 
 namespace mt::gfx::mtvk {
@@ -30,13 +31,12 @@ namespace mt::gfx::mtvk {
         for(const auto& source : sources){
             auto res = compiler.CompileGlslToSpv(source.source.data(),source.source.size(),get_glsl_shader_kind(source.stage),source.filename.c_str());
             if(res.GetNumErrors() > 0){
-                aux::Logger::log(res.GetErrorMessage(), aux::LogType::Error);
-                throw std::runtime_error("An error happened while compiling the GLSL shaders to SPIR-V");
+                aux::Logger::log("GLSL to SPIR-V Shader Compilation Error:\n" + res.GetErrorMessage(), aux::LogType::Error);
+                break;
             } else{
                 if(res.GetNumWarnings() > 0){
                     aux::Logger::log(res.GetErrorMessage(), aux::LogType::Error);
                 }
-
                 uint32_t size = (res.end() - res.begin()) * sizeof(u_int32_t);
                 shader_modules.emplace_back(source.stage, create_shader_module(res.begin(), size));
             }
@@ -45,6 +45,7 @@ namespace mt::gfx::mtvk {
 
     void Shader::process_spirv_module(const std::string &module_name) {
         auto sources = find_sources(spirv_type_ext_pairs, module_name);
+        throw aux::NotImplemented("This is yet to be implemented, but should be the easier");
     }
 
     Shader::~Shader() {
@@ -68,7 +69,7 @@ namespace mt::gfx::mtvk {
             std::string full_file_path = file_name_no_ext + ext_type_pair.second;
             if (io::file_exists(full_file_path)) {
                 Shader::ShaderSourceData source_data;
-                source_data.filename = module_name + ext_type_pair.second;
+                source_data.filename = full_file_path;
                 source_data.source = io::read_file(full_file_path);
                 source_data.stage = ext_type_pair.first;
                 found_sources.push_back(source_data);
