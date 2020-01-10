@@ -131,4 +131,8 @@ namespace mt::gfx::mtvk {
     vk::Extent2D Swapchain::get_extent() {
         return extent;
     }
+
+    vk::Format Swapchain::get_format() {
+        return image_format;
+    }
 }

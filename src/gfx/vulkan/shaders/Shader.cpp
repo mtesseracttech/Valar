@@ -112,7 +112,7 @@ namespace mt::gfx::mtvk {
         return device->get_device().createShaderModule(createInfo);
     }
 
-    std::vector<vk::PipelineShaderStageCreateInfo> Shader::generate_shader_stage_create_infos() {
+    std::vector<vk::PipelineShaderStageCreateInfo> Shader::create_shader_stage_create_infos() const{
         std::vector<vk::PipelineShaderStageCreateInfo> shader_stages;
         for(const auto& module : shader_modules){
             vk::PipelineShaderStageCreateInfo create_info;

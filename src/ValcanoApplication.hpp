@@ -23,18 +23,19 @@ namespace mt{
 	};
 }
 
-
 int main(){
-	mt::ValcanoApplication app(800, 600,"Valcano Testing");
+    mt::ValcanoApplication app(800, 600,"Valcano Testing");
 
-	try {
-		app.run();
-	} catch (const std::exception& e) {
+    try {
+        app.run();
+    } catch (const std::exception& e) {
         mt::aux::Logger::log(e.what(), mt::aux::LogType::Error);
-		return EXIT_FAILURE;
-	}
-	return EXIT_SUCCESS;
-
+        return EXIT_FAILURE;
+    }
+    return EXIT_SUCCESS;
 }
+
+
+
 
 #endif //VALCANO_VALCANOAPPLICATION_HPP

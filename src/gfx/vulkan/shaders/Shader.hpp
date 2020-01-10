@@ -60,12 +60,11 @@ namespace mt::gfx::mtvk{
         shaderc_shader_kind get_glsl_shader_kind(vk::ShaderStageFlagBits flags);
 
         vk::ShaderModule create_shader_module(const uint32_t* data, uint32_t size);
-
-        std::vector<vk::PipelineShaderStageCreateInfo> generate_shader_stage_create_infos();
-
     public:
         Shader(const std::string& module_name, const std::shared_ptr<Device>& device, ShaderSourceType module_type);
         ~Shader();
+
+        std::vector<vk::PipelineShaderStageCreateInfo> create_shader_stage_create_infos() const;
     };
 }
 

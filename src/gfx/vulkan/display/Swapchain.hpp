@@ -32,6 +32,7 @@ namespace mt::gfx::mtvk {
         ~Swapchain();
 
         vk::Extent2D get_extent();
+        vk::Format get_format();
     };
 }
 
