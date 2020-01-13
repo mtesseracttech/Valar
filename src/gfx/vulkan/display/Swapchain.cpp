@@ -133,4 +133,36 @@ namespace mt::gfx::mtvk {
         if(swapchain) device->get_device().destroySwapchainKHR(swapchain);
         aux::Logger::log("Destroyed Swapchain", aux::LogType::Info);
     }
+
+    void Swapchain::create_framebuffers(const RenderPass &render_pass) {
+        framebuffers.resize(image_views.size());
+
+        for(std::size_t i = 0; i < image_views.size(); i++){
+            vk::ImageView attachments[] = {
+                    image_views[i]
+            };
+
+            vk::FramebufferCreateInfo framebuffer_info;
+            framebuffer_info.renderPass = render_pass.get_render_pass();
+            framebuffer_info.attachmentCount = 1;
+            framebuffer_info.pAttachments = attachments;
+            framebuffer_info.width = extent.width;
+            framebuffer_info.height = extent.height;
+            framebuffer_info.layers = 1;
+
+            framebuffers[i] = device->get_device().createFramebuffer(framebuffer_info);
+        }
+    }
+
+    void Swapchain::destroy_framebuffers() {
+        for(auto framebuffer : framebuffers){
+            device->get_device().destroyFramebuffer(framebuffer);
+        }
+        framebuffers.clear();
+        aux::Logger::log("Destroyed Swapchain Framebuffers", aux::LogType::Info);
+    }
+
+    std::vector<vk::Framebuffer> Swapchain::get_framebuffers() const {
+        return framebuffers;
+    }
 }

@@ -113,7 +113,7 @@ namespace mt::gfx::mtvk {
         pipeline_create_info.pMultisampleState = &multisample_create_info;
         pipeline_create_info.pDepthStencilState = nullptr;
         pipeline_create_info.pColorBlendState = &color_blend_create_info;
-        pipeline_create_info.pDynamicState = nullptr;
+        pipeline_create_info.pDynamicState = &dynamic_state_create_info;
         pipeline_create_info.layout = pipeline_layout;
         pipeline_create_info.renderPass = render_pass.get_render_pass();
         pipeline_create_info.subpass = 0;
@@ -126,5 +126,9 @@ namespace mt::gfx::mtvk {
     void GraphicsPipeline::destroy() {
         device->get_device().destroyPipeline(graphics_pipeline);
         device->get_device().destroyPipelineLayout(pipeline_layout);
+    }
+
+    vk::Pipeline GraphicsPipeline::get_pipeline() const {
+        return graphics_pipeline;
     }
 }

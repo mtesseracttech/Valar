@@ -16,6 +16,7 @@
 #include <gfx/vulkan/shaders/Shader.hpp>
 #include <gfx/vulkan/pipelines/GraphicsPipeline.hpp>
 #include <gfx/vulkan/pipelines/RenderPass.hpp>
+#include <gfx/vulkan/display/CommandBuffer.hpp>
 
 
 namespace mt::gfx{
@@ -28,10 +29,13 @@ namespace mt::gfx{
 		std::shared_ptr<mtvk::Swapchain> swapchain;
         std::shared_ptr<mtvk::RenderPass> render_pass;
         std::shared_ptr<mtvk::GraphicsPipeline> pipeline;
+        std::shared_ptr<mtvk::CommandBuffer> command_buffer;
 
     public:
 		Renderer(const std::shared_ptr<ContextWindow>& render_window, const std::string& app_name);
-		~Renderer();
+		~Renderer() = default;
+
+		void draw();
 
 		void terminate();
 	};

@@ -3,12 +3,13 @@
 //
 
 #include "RenderPass.hpp"
+#include <gfx/vulkan/display/Swapchain.hpp>
 
 namespace mt::gfx::mtvk {
 
-    RenderPass::RenderPass(const std::shared_ptr<Device>& device, const std::weak_ptr<Swapchain>& swapchain) : device(device) {
+    RenderPass::RenderPass(const std::shared_ptr<Device>& device, const Swapchain& swapchain) : device(device) {
         vk::AttachmentDescription color_attachment;
-        color_attachment.format            = swapchain.lock()->get_format();
+        color_attachment.format            = swapchain.get_format();
         color_attachment.samples           = vk::SampleCountFlagBits::e1;
         color_attachment.loadOp            = vk::AttachmentLoadOp::eClear;
         color_attachment.storeOp           = vk::AttachmentStoreOp::eStore;
@@ -39,6 +40,6 @@ namespace mt::gfx::mtvk {
     }
 
     vk::RenderPass RenderPass::get_render_pass() const {
-            return render_pass;
+        return render_pass;
     }
 }

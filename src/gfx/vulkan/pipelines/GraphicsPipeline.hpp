@@ -27,6 +27,8 @@ namespace mt::gfx::mtvk {
         ~GraphicsPipeline() = default;
 
         void destroy();
+
+        vk::Pipeline get_pipeline() const;
     };
 
 }

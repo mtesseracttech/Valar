@@ -6,18 +6,18 @@
 #define VALCANO_RENDERPASS_HPP
 
 #include <gfx/vulkan/display/Device.hpp>
-#include <gfx/vulkan/display/Swapchain.hpp>
 
 
 namespace mt::gfx::mtvk {
+    class Swapchain;
+
     class RenderPass {
         std::shared_ptr<Device> device;
 
         vk::RenderPass render_pass;
 
     public:
-
-        RenderPass(const std::shared_ptr<Device>& device, const std::weak_ptr<Swapchain>& swapchain);
+        RenderPass(const std::shared_ptr<Device>& device, const Swapchain& swapchain);
         ~RenderPass() = default;
 
         void destroy();

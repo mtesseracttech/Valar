@@ -20,6 +20,7 @@ namespace mt {
 	void ValcanoApplication::run() {
 		while(!main_window->should_close()){
 			main_window->process_events();
+			renderer->draw();
 		}
 		renderer->terminate();
 	}
