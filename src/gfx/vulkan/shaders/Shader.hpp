@@ -8,7 +8,6 @@
 #include <gfx/vulkan/display/Device.hpp>
 #include <shaderc/shaderc.hpp>
 #include "vulkan/vulkan.hpp"
-#include <map>
 
 
 namespace mt::gfx::mtvk{

@@ -72,8 +72,7 @@ namespace mt::gfx::mtvk {
         aux::Logger::log("Destroyed Swapchain", aux::LogType::Info);
     }
 
-    vk::SurfaceFormatKHR
-    Swapchain::choose_swap_surface_format(const std::vector<vk::SurfaceFormatKHR> &available_formats) {
+    vk::SurfaceFormatKHR Swapchain::choose_swap_surface_format(const std::vector<vk::SurfaceFormatKHR> &available_formats) {
         for(const auto& available_format : available_formats){
             if(available_format.format == vk::Format::eB8G8R8A8Unorm && available_format.colorSpace == vk::ColorSpaceKHR::eSrgbNonlinear){
                 return available_format;
