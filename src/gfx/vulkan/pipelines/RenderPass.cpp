@@ -34,11 +34,11 @@ namespace mt::gfx::mtvk {
         render_pass = device->get_device().createRenderPass(create_info);
     }
 
-    RenderPass::~RenderPass() {
+    void RenderPass::destroy() {
         device->get_device().destroyRenderPass(render_pass);
     }
 
-    vk::RenderPass RenderPass::get_render_pass() {
-        return render_pass;
+    vk::RenderPass RenderPass::get_render_pass() const {
+            return render_pass;
     }
 }

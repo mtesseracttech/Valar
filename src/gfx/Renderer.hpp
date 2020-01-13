@@ -14,6 +14,9 @@
 #include <gfx/vulkan/display/Surface.hpp>
 #include <gfx/vulkan/display/Swapchain.hpp>
 #include <gfx/vulkan/shaders/Shader.hpp>
+#include <gfx/vulkan/pipelines/GraphicsPipeline.hpp>
+#include <gfx/vulkan/pipelines/RenderPass.hpp>
+
 
 namespace mt::gfx{
 	class Renderer {
@@ -23,8 +26,10 @@ namespace mt::gfx{
 		std::shared_ptr<mtvk::Device> device;
 		std::shared_ptr<mtvk::Surface> surface;
 		std::shared_ptr<mtvk::Swapchain> swapchain;
+        std::shared_ptr<mtvk::RenderPass> render_pass;
+        std::shared_ptr<mtvk::GraphicsPipeline> pipeline;
 
-	public:
+    public:
 		Renderer(const std::shared_ptr<ContextWindow>& render_window, const std::string& app_name);
 		~Renderer();
 

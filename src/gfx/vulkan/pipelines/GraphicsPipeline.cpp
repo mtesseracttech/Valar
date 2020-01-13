@@ -6,14 +6,11 @@
 #include <array>
 
 namespace mt::gfx::mtvk {
-    GraphicsPipeline::GraphicsPipeline(const Shader& shader,
-            const std::shared_ptr<Device>& device,
-            const std::shared_ptr<RenderPass> &render_pass,
-            const std::weak_ptr<Swapchain>& swapchain) : shader(shader), device(device), render_pass(render_pass), swapchain(swapchain){
-        vk::Extent2D swapchain_extent = {0,0};
-        if(!swapchain.expired()){
-            swapchain_extent = swapchain.lock()->get_extent();
-        }
+    GraphicsPipeline::GraphicsPipeline(const std::shared_ptr<Device>& device,
+                                       const RenderPass& render_pass,
+                                       const Swapchain& swapchain,
+                                       const Shader& shader) : device(device){
+        auto swapchain_extent = swapchain.get_extent();
 
         vk::PipelineVertexInputStateCreateInfo vertex_input_info;
         vertex_input_info.vertexBindingDescriptionCount      = 0;
@@ -118,7 +115,7 @@ namespace mt::gfx::mtvk {
         pipeline_create_info.pColorBlendState = &color_blend_create_info;
         pipeline_create_info.pDynamicState = nullptr;
         pipeline_create_info.layout = pipeline_layout;
-        pipeline_create_info.renderPass = render_pass->get_render_pass();
+        pipeline_create_info.renderPass = render_pass.get_render_pass();
         pipeline_create_info.subpass = 0;
         pipeline_create_info.basePipelineHandle = nullptr;
         pipeline_create_info.basePipelineIndex = -1;
@@ -126,9 +123,8 @@ namespace mt::gfx::mtvk {
         graphics_pipeline = device->get_device().createGraphicsPipeline(nullptr, pipeline_create_info);
     }
 
-    GraphicsPipeline::~GraphicsPipeline() {
-        auto device = this->device->get_device();
-        device.destroyPipeline(graphics_pipeline);
-        device.destroyPipelineLayout(pipeline_layout);
+    void GraphicsPipeline::destroy() {
+        device->get_device().destroyPipeline(graphics_pipeline);
+        device->get_device().destroyPipelineLayout(pipeline_layout);
     }
 }

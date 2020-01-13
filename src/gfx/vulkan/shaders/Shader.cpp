@@ -3,7 +3,6 @@
 //
 
 #include <io/filesystem/FileSystem.hpp>
-#include <map>
 #include <aux/logging/Logger.hpp>
 #include <aux/exceptions/NotImplemented.hpp>
 #include "Shader.hpp"
@@ -101,7 +100,7 @@ namespace mt::gfx::mtvk {
             case vk::ShaderStageFlagBits::eCompute:
                 return shaderc_glsl_compute_shader;
             default:
-                throw std::runtime_error("No corresponding glsl shader type");
+                throw std::runtime_error("No corresponding GLSL shader type");
         }
     }
 
@@ -119,6 +118,7 @@ namespace mt::gfx::mtvk {
             create_info.stage = module.first;
             create_info.module = module.second;
             create_info.pName = "main";
+            shader_stages.push_back(create_info);
         }
         return shader_stages;
     }
