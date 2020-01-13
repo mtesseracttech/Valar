@@ -15,10 +15,12 @@ namespace mt::gfx {
         WindowCallbackManager callback_manager;
 
     public:
-        explicit WindowManager(std::shared_ptr<ContextWindow> main_window);
+        WindowManager();
         ~WindowManager();
 
-        void add_window(std::shared_ptr<ContextWindow> window);
+        void set_main_window(const std::shared_ptr<ContextWindow>& main_window);
+
+        void add_window(const std::shared_ptr<ContextWindow>& window);
     };
 }
 

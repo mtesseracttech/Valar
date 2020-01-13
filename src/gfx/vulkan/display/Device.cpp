@@ -27,11 +27,6 @@ namespace mt::gfx::mtvk {
         aux::Logger::log("Set up Graphics and Present Queues", aux::LogType::Info);
     }
 
-	Device::~Device(){
-        aux::Logger::log("Destroyed Vulkan Device", aux::LogType::Info);
-        if(device) device.destroy();
-    }
-
 	vk::PhysicalDevice Device::select_best_physical_device(std::vector<vk::PhysicalDevice> physical_devices,  const vk::SurfaceKHR& surface) {
 		if (physical_devices.empty()) {
 			throw std::runtime_error("Failed to find GPUs with Vulkan support!");
@@ -181,6 +176,11 @@ namespace mt::gfx::mtvk {
 
     Device::QueueFamilyIndices Device::get_queue_indices() {
         return indices;
+    }
+
+    void Device::destroy() {
+        aux::Logger::log("Destroyed Vulkan Device", aux::LogType::Info);
+        if(device) device.destroy();
     }
 
 }

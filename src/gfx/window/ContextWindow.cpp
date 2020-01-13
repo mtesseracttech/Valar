@@ -11,9 +11,7 @@
 namespace mt::gfx{
 
 	ContextWindow::ContextWindow(uint32_t width, uint32_t height, const std::string &window_title) {
-		glfwInit();
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-
 		window = glfwCreateWindow(static_cast<int>(width), static_cast<int>(height), window_title.c_str(), nullptr, nullptr);
 
 		if(!window) {
@@ -30,10 +28,6 @@ namespace mt::gfx{
 		title = window_title;
 
 		aux::Logger::log("Window " + window_title + " initialized with a size of: " + std::to_string(this->width) + "x" + std::to_string(this->height));
-	}
-
-	GLFWwindow *ContextWindow::get_window() {
-		return window;
 	}
 
 	void ContextWindow::framebuffer_resized(uint32_t new_width, uint32_t new_height) {
@@ -55,15 +49,19 @@ namespace mt::gfx{
 		}
 	}
 
-    uint32_t ContextWindow::get_width() {
+    GLFWwindow *ContextWindow::get_window() const {
+        return window;
+    }
+
+    uint32_t ContextWindow::get_width() const {
         return static_cast<uint32_t>(width);
     }
 
-    uint32_t ContextWindow::get_height() {
+    uint32_t ContextWindow::get_height() const {
         return static_cast<uint32_t>(height);
     }
 
-    vk::Extent2D ContextWindow::get_extent() {
+    vk::Extent2D ContextWindow::get_extent() const {
         return {get_width(), get_height()};
     }
 
@@ -78,7 +76,7 @@ namespace mt::gfx{
         glfwTerminate();
     }
 
-    std::string ContextWindow::get_title() {
+    std::string ContextWindow::get_title() const {
         return title;
     }
 }

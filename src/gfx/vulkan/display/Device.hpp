@@ -49,7 +49,9 @@ namespace mt::gfx::mtvk {
 
     public:
 		Device(const std::shared_ptr<Instance> &instance, const std::shared_ptr<Surface>& surface);
-		~Device();
+		~Device() = default;
+
+		void destroy();
 
         bool check_device_extension_support(const vk::PhysicalDevice &device);
 

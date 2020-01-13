@@ -13,15 +13,21 @@ namespace mt::gfx {
 	    if(instance->has_validation_layers()){
 	    	debugging = std::make_shared<mtvk::VulkanDebug>(instance);
 	    }
-
-	    surface = std::make_shared<mtvk::Surface>(render_window, instance);
+	    surface = std::make_shared<mtvk::Surface>(instance, *window);
 	    device = std::make_shared<mtvk::Device>(instance, surface);
-	    swapchain = std::make_shared<mtvk::Swapchain>(device , surface, window);
-
+	    swapchain = std::make_shared<mtvk::Swapchain>(device , *surface, *window);
 	    auto test_shader = mtvk::Shader("base", device, mtvk::ShaderSourceType::GLSL);
 	}
 
     Renderer::~Renderer() {
 
+    }
+
+    void Renderer::terminate() {
+        swapchain->destroy();
+        device->destroy();
+        surface->destroy();
+        if(debugging) debugging->destroy();
+        instance->destroy();
     }
 }

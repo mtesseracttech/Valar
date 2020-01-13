@@ -22,17 +22,19 @@ namespace mt::gfx::mtvk {
 
         vk::SurfaceFormatKHR choose_swap_surface_format(const std::vector<vk::SurfaceFormatKHR>& available_formats);
         vk::PresentModeKHR choose_swap_present_mode(const std::vector<vk::PresentModeKHR>& available_modes);
-        vk::Extent2D choose_swap_extent(const vk::SurfaceCapabilitiesKHR& capabilities, const std::shared_ptr<ContextWindow>& window);
+        vk::Extent2D choose_swap_extent(const vk::SurfaceCapabilitiesKHR& capabilities, const ContextWindow& window);
 
         void create_image_views();
 
         void destroy_image_views();
     public:
-        Swapchain(const std::shared_ptr<Device>& device, const std::shared_ptr<Surface>& surface,  const std::shared_ptr<ContextWindow>& window);
-        ~Swapchain();
+        Swapchain(const std::shared_ptr<Device>& device, const Surface& surface,  const ContextWindow& window);
+        ~Swapchain() = default;
 
-        vk::Extent2D get_extent();
-        vk::Format get_format();
+        void destroy();
+
+        vk::Extent2D get_extent() const;
+        vk::Format get_format() const;
     };
 }
 

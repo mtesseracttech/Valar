@@ -54,10 +54,10 @@ namespace mt::gfx::mtvk {
 		}
 	}
 
-	Instance::~Instance() {
+    void Instance::destroy() {
         aux::Logger::log("Destroyed Vulkan Instance", aux::LogType::Info);
         instance.destroy();
-	}
+    }
 
 	bool Instance::check_validation_layer_support() {
 		std::vector<vk::LayerProperties> available_layers = vk::enumerateInstanceLayerProperties();
@@ -98,15 +98,15 @@ namespace mt::gfx::mtvk {
 		return extensions;
 	}
 
-	vk::Instance Instance::get_instance(){
-		return instance;
-	}
-
 	bool Instance::has_validation_layers() const {
 		return validation_layers_enabled;
 	}
 
     std::vector<const char *> Instance::get_validation_layers() const {
         return validation_layers;
+    }
+
+    vk::Instance Instance::get_instance() const{
+        return instance;
     }
 }

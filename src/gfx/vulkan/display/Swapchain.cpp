@@ -6,12 +6,12 @@
 #include <aux/logging/Logger.hpp>
 #include "Swapchain.hpp"
 namespace mt::gfx::mtvk {
-    Swapchain::Swapchain(const std::shared_ptr<Device>& device, const std::shared_ptr<Surface>& surface, const std::shared_ptr<ContextWindow>& window) : device(device) {
+    Swapchain::Swapchain(const std::shared_ptr<Device>& device, const Surface& surface, const ContextWindow& window) : device(device) {
         auto physical_device = device->get_physical_device();
 
-        auto surface_formats = physical_device.getSurfaceFormatsKHR(surface->get_surface());
-        auto present_modes = physical_device.getSurfacePresentModesKHR(surface->get_surface());
-        auto capabilities = physical_device.getSurfaceCapabilitiesKHR(surface->get_surface());
+        auto surface_formats = physical_device.getSurfaceFormatsKHR(surface.get_surface());
+        auto present_modes = physical_device.getSurfacePresentModesKHR(surface.get_surface());
+        auto capabilities = physical_device.getSurfaceCapabilitiesKHR(surface.get_surface());
 
         auto surface_format = choose_swap_surface_format(surface_formats);
         auto present_mode = choose_swap_present_mode(present_modes);
@@ -23,7 +23,7 @@ namespace mt::gfx::mtvk {
         }
 
         vk::SwapchainCreateInfoKHR create_info;
-        create_info.surface = surface->get_surface();
+        create_info.surface = surface.get_surface();
         create_info.minImageCount = image_count;
         create_info.imageFormat = surface_format.format;
         create_info.imageColorSpace = surface_format.colorSpace;
@@ -64,14 +64,6 @@ namespace mt::gfx::mtvk {
         create_image_views();
     }
 
-
-    Swapchain::~Swapchain() {
-        destroy_image_views();
-
-        if(swapchain) device->get_device().destroySwapchainKHR(swapchain);
-        aux::Logger::log("Destroyed Swapchain", aux::LogType::Info);
-    }
-
     vk::SurfaceFormatKHR Swapchain::choose_swap_surface_format(const std::vector<vk::SurfaceFormatKHR> &available_formats) {
         for(const auto& available_format : available_formats){
             if(available_format.format == vk::Format::eB8G8R8A8Unorm && available_format.colorSpace == vk::ColorSpaceKHR::eSrgbNonlinear){
@@ -90,13 +82,13 @@ namespace mt::gfx::mtvk {
         return vk::PresentModeKHR::eFifo;
     }
 
-    vk::Extent2D Swapchain::choose_swap_extent(const vk::SurfaceCapabilitiesKHR &capabilities, const std::shared_ptr<ContextWindow>& window) {
+    vk::Extent2D Swapchain::choose_swap_extent(const vk::SurfaceCapabilitiesKHR &capabilities, const ContextWindow& window) {
         if(capabilities.currentExtent.width != UINT32_MAX){
             return capabilities.currentExtent;
         } else{
             return vk::Extent2D {
-                    std::max(capabilities.minImageExtent.width, std::min(capabilities.maxImageExtent.width, window->get_width())),
-                    std::max(capabilities.minImageExtent.height, std::min(capabilities.maxImageExtent.height, window->get_height()))
+                    std::max(capabilities.minImageExtent.width, std::min(capabilities.maxImageExtent.width, window.get_width())),
+                    std::max(capabilities.minImageExtent.height, std::min(capabilities.maxImageExtent.height, window.get_height()))
             };
         }
     }
@@ -125,13 +117,20 @@ namespace mt::gfx::mtvk {
         for (auto image_view : image_views) {
             if(image_view) device->get_device().destroyImageView(image_view);
         }
+        aux::Logger::log("Destroyed Swapchain Image Views", aux::LogType::Info);
     }
 
-    vk::Extent2D Swapchain::get_extent() {
+    vk::Extent2D Swapchain::get_extent() const {
         return extent;
     }
 
-    vk::Format Swapchain::get_format() {
+    vk::Format Swapchain::get_format() const {
         return image_format;
+    }
+
+    void Swapchain::destroy() {
+        destroy_image_views();
+        if(swapchain) device->get_device().destroySwapchainKHR(swapchain);
+        aux::Logger::log("Destroyed Swapchain", aux::LogType::Info);
     }
 }

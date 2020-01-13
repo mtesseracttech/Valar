@@ -35,7 +35,9 @@ namespace mt::gfx::mtvk {
 
 	public:
 		explicit VulkanDebug(const std::shared_ptr<Instance>& instance, bool verbose_mode = false);
-		~VulkanDebug();
+		~VulkanDebug() = default;
+
+		void destroy();
 	};
 }
 

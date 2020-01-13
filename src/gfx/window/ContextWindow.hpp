@@ -25,17 +25,18 @@ namespace mt::gfx{
 		ContextWindow(uint32_t width, uint32_t height, const std::string& window_title);
 		~ContextWindow();
 		void framebuffer_resized(uint32_t width, uint32_t height);
-		GLFWwindow * get_window();
 
 		bool should_close();
 		void process_events();
 
-		uint32_t get_width();
-		uint32_t get_height();
+        GLFWwindow * get_window() const;
 
-		vk::Extent2D get_extent();
+		uint32_t get_width() const;
+		uint32_t get_height() const;
 
-		std::string get_title();
+		vk::Extent2D get_extent() const;
+
+		std::string get_title() const;
 	};
 }
 

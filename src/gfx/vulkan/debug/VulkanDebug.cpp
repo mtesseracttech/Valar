@@ -89,8 +89,8 @@ namespace mt::gfx::mtvk {
 		return false;
 	}
 
-	VulkanDebug::~VulkanDebug() {
-		aux::Logger::log("Destroyed Vulkan Debug Messenger", aux::LogType::Info);
-		destroy_debug_utils_messenger_ext(instance->get_instance(), debug_messenger, nullptr);
-	}
+    void VulkanDebug::destroy() {
+        aux::Logger::log("Destroyed Vulkan Debug Messenger", aux::LogType::Info);
+        destroy_debug_utils_messenger_ext(instance->get_instance(), debug_messenger, nullptr);
+    }
 }

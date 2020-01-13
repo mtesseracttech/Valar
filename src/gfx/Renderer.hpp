@@ -27,6 +27,8 @@ namespace mt::gfx{
 	public:
 		Renderer(const std::shared_ptr<ContextWindow>& render_window, const std::string& app_name);
 		~Renderer();
+
+		void terminate();
 	};
 }
 

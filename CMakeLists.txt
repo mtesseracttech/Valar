@@ -43,7 +43,8 @@ endif()
 include_directories(src/
                     libs/assimp/include/
                     libs/glfw/include/
-                    libs/shaderc/)
+                    libs/shaderc/libshaderc/include/
+                    libs/shaderc/libshaderc_spvc/include/)
 
 file(GLOB_RECURSE PROJECT_HEADERS src/*.hpp)
 file(GLOB_RECURSE PROJECT_SOURCES src/*.cpp)
