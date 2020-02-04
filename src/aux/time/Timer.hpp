@@ -8,7 +8,7 @@
 #include <chrono>
 #include <string>
 
-namespace mt::aux {
+namespace mt {
 	class Timer {
 	private:
 		typedef std::chrono::system_clock ChronoClock;

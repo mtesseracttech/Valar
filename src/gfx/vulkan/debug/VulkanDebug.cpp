@@ -28,7 +28,7 @@ namespace mt::gfx::mtvk {
 			throw std::runtime_error("Failed to set up debug messenger!");
 		}
 
-		aux::Logger::log("Set up Vulkan Debug Messenger", aux::LogType::Info);
+		Logger::log("Set up Vulkan Debug Messenger", Info);
 	}
 
 	vk::Result VulkanDebug::create_debug_utils_messenger_ext(vk::Instance instance,
@@ -69,9 +69,9 @@ namespace mt::gfx::mtvk {
 
         (void)vk_user_data; //To get the compiler to stop complaining about an unused variable.
 
-		aux::LogType log_level = aux::LogType::Info;
+		LogType log_level = Info;
 		if((uint32_t)message_severity >= (uint32_t)vk::DebugUtilsMessageSeverityFlagBitsEXT::eWarning){
-			log_level = aux::LogType ::Error;
+			log_level = Error;
 		}
 
 		std::string severity_string = vk::to_string(message_severity);
@@ -83,14 +83,14 @@ namespace mt::gfx::mtvk {
 		std::stringstream message;
 		message << "[VK-" << type_string << "][" << severity_string << "]:";
 
-		aux::Logger::log(message, log_level);
-		aux::Logger::log(message_callback_data.pMessage, log_level);
+		Logger::log(message, log_level);
+		Logger::log(message_callback_data.pMessage, log_level);
 
 		return false;
 	}
 
     void VulkanDebug::destroy() {
-        aux::Logger::log("Destroyed Vulkan Debug Messenger", aux::LogType::Info);
+        Logger::log("Destroyed Vulkan Debug Messenger", Info);
         destroy_debug_utils_messenger_ext(instance->get_instance(), debug_messenger, nullptr);
     }
 }

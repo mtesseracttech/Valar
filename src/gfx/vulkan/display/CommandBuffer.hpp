@@ -7,6 +7,7 @@
 
 
 #include <gfx/vulkan/pipelines/RenderPass.hpp>
+#include <gfx/vulkan/pipelines/GraphicsPipeline.hpp>
 #include "Device.hpp"
 
 namespace mt::gfx::mtvk {
@@ -16,9 +17,12 @@ namespace mt::gfx::mtvk {
         std::vector<vk::CommandBuffer> command_buffers;
 
         std::shared_ptr<Device> device;
+        std::shared_ptr<Swapchain> swapchain;
+        std::shared_ptr<RenderPass> render_pass;
+
 
     public:
-        explicit CommandBuffer(const std::shared_ptr<Device>& device, const Swapchain& swapchain);
+        explicit CommandBuffer(const std::shared_ptr<Device>& device, const std::shared_ptr<Swapchain>& swapchain, const std::shared_ptr<RenderPass>& render_pass);
         ~CommandBuffer() = default;
 
         void destroy();
@@ -27,11 +31,7 @@ namespace mt::gfx::mtvk {
 
         std::vector<vk::CommandBuffer> get_command_buffers() const;
 
-        std::size_t get_buffer_count() const;
-
-        vk::CommandBuffer get_buffer_at(std::size_t i) const;
-
-        void create_command_buffers(const Swapchain &swapchain);
+        void create_command_buffers();
     };
 }
 

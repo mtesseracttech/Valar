@@ -29,7 +29,7 @@ int main(){
     try {
         app.run();
     } catch (const std::exception& e) {
-        mt::aux::Logger::log(e.what(), mt::aux::LogType::Error);
+        mt::Logger::log(e.what(), mt::LogType::Error);
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;

@@ -27,13 +27,13 @@ namespace mt::gfx{
 
 		title = window_title;
 
-		aux::Logger::log("Window " + window_title + " initialized with a size of: " + std::to_string(this->width) + "x" + std::to_string(this->height));
+		Logger::log("Window " + window_title + " initialized with a size of: " + std::to_string(this->width) + "x" + std::to_string(this->height));
 	}
 
 	void ContextWindow::framebuffer_resized(uint32_t new_width, uint32_t new_height) {
         width = static_cast<int>(new_width);
         height = static_cast<int>(new_height);
-        aux::Logger::log("Framebuffer Resized to: " + std::to_string(width) + "x" + std::to_string(height));
+        Logger::log("Framebuffer Resized to: " + std::to_string(width) + "x" + std::to_string(height));
     }
 
 	bool ContextWindow::should_close() {
@@ -67,14 +67,11 @@ namespace mt::gfx{
 
     ContextWindow::~ContextWindow() {
 	    if(window){
-            aux::Logger::log("Destroyed the Window", aux::LogType::Info);
+            Logger::log("Destroyed the Window", Info);
             glfwDestroyWindow(window);
             window = nullptr;
         }
-        width = 0;
-        height = 0;
-        glfwTerminate();
-    }
+	}
 
     std::string ContextWindow::get_title() const {
         return title;

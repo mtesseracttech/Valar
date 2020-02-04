@@ -10,7 +10,7 @@ namespace mt::gfx {
     void WindowCallbackManager::register_window(std::weak_ptr<gfx::ContextWindow> window) {
         if (!window.expired()) {
             auto win = window.lock();
-            aux::Logger::log("Registering Callbacks for Window '" + win->get_title() + "'", aux::LogType::Info);
+            Logger::log("Registering Callbacks for Window '" + win->get_title() + "'", Info);
             glfwSetWindowUserPointer(win->get_window(), this);
             //Setting the general GLFW error callback
             glfwSetErrorCallback(window_error_callback);
@@ -29,7 +29,7 @@ namespace mt::gfx {
     void WindowCallbackManager::deregister_window(std::weak_ptr<gfx::ContextWindow> window) {
         if (!window.expired()) {
             auto win = window.lock();
-            aux::Logger::log("Deregistering Callbacks for Window '" + win->get_title() + "'", aux::LogType::Info);
+            Logger::log("Deregistering Callbacks for Window '" + win->get_title() + "'", Info);
             window_callbacks.erase(win->get_window());
         }
     }
@@ -51,27 +51,27 @@ namespace mt::gfx {
     void WindowCallbackManager::window_error_callback(int error_code, const char *error_message) {
         std::stringstream ss;
         ss << "[GLFW-" << error_code << "] " << error_message;
-        aux::Logger::log(ss, aux::LogType::Error);
+        Logger::log(ss, Error);
     }
 
     void WindowCallbackManager::keyboard_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
         auto manager = get_callback_manager(window);
         if (manager) {
-            //aux::Logger::log("Keyboard Event Handling Not Implemented Yet", aux::LogType::Info);
+            //Logger::log("Keyboard Event Handling Not Implemented Yet", Info);
         }
     }
 
     void WindowCallbackManager::mouse_button_callback(GLFWwindow *window, int button, int action, int mods) {
         auto manager = get_callback_manager(window);
         if (manager) {
-            //aux::Logger::log("Mouse Button Event Handling Not Implemented Yet", aux::LogType::Info);
+            //Logger::log("Mouse Button Event Handling Not Implemented Yet", Info);
         }
     }
 
     void WindowCallbackManager::mouse_pos_callback(GLFWwindow *window, double x, double y) {
         auto manager = get_callback_manager(window);
         if (manager) {
-            //aux::Logger::log("Mouse Pos Event Handling Not Implemented Yet", aux::LogType::Info);
+            //Logger::log("Mouse Pos Event Handling Not Implemented Yet", Info);
         }
     }
 

@@ -30,11 +30,11 @@ namespace mt::gfx::mtvk {
         for(const auto& source : sources){
             auto res = compiler.CompileGlslToSpv(source.source.data(),source.source.size(),get_glsl_shader_kind(source.stage),source.filename.c_str());
             if(res.GetNumErrors() > 0){
-                aux::Logger::log("GLSL to SPIR-V Shader Compilation Error:\n" + res.GetErrorMessage(), aux::LogType::Error);
+                Logger::log("GLSL to SPIR-V Shader Compilation Error:\n" + res.GetErrorMessage(), Error);
                 break;
             } else{
                 if(res.GetNumWarnings() > 0){
-                    aux::Logger::log(res.GetErrorMessage(), aux::LogType::Error);
+                    Logger::log(res.GetErrorMessage(), Error);
                 }
                 uint32_t size = (res.end() - res.begin()) * sizeof(u_int32_t);
                 shader_modules.emplace_back(source.stage, create_shader_module(res.begin(), size));

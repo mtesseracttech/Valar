@@ -10,7 +10,7 @@
 #include <sstream>
 #include <iomanip>
 
-namespace mt::aux {
+namespace mt{
 	class TimeUtils {
 		typedef std::chrono::system_clock ChronoClock;
 

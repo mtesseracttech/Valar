@@ -19,12 +19,12 @@ namespace mt::gfx::mtvk {
         properties = best_physical_device.getProperties();
         indices = find_queue_families(physical_device, surface->get_surface());
 
-        aux::Logger::log("Set up Vulkan Device", aux::LogType::Info);
+        Logger::log("Set up Vulkan Device", Info);
 
         graphics_queue = device.getQueue(indices.graphics_family.value(),0);
         present_queue = device.getQueue(indices.present_family.value(), 0);
 
-        aux::Logger::log("Set up Graphics and Present Queues", aux::LogType::Info);
+        Logger::log("Set up Graphics and Present Queues", Info);
     }
 
 	vk::PhysicalDevice Device::select_best_physical_device(std::vector<vk::PhysicalDevice> physical_devices,  const vk::SurfaceKHR& surface) {
@@ -40,9 +40,9 @@ namespace mt::gfx::mtvk {
 			}
 		}
 
-		aux::Logger::log("Found the following suitable GPUs: ", aux::LogType::Info);
+		Logger::log("Found the following suitable GPUs: ", Info);
 		if(ranked_devices.empty()){
-			aux::Logger::log("None", aux::LogType::Error);
+			Logger::log("None", Error);
 			throw std::runtime_error("Failed to find a device that satisfies all hard requirements!");
 		}
 
@@ -52,11 +52,11 @@ namespace mt::gfx::mtvk {
 			auto ranked_device = ranked_devices.top();
 			std::stringstream ss;
 			ss << i++ << ". " << ranked_device.second.getProperties().deviceName << " (" << ranked_device.first << ")";
-			aux::Logger::log(ss, aux::LogType::Info);
+			Logger::log(ss, Info);
 			ranked_devices.pop();
 		}
 
-        aux::Logger::log("Selected the GPU: " + std::string(best_device.getProperties().deviceName), aux::LogType::Info);
+        Logger::log("Selected the GPU: " + std::string(best_device.getProperties().deviceName), Info);
 
         return best_device;
 	}
@@ -179,7 +179,7 @@ namespace mt::gfx::mtvk {
     }
 
     void Device::destroy() {
-        aux::Logger::log("Destroyed Vulkan Device", aux::LogType::Info);
+        Logger::log("Destroyed Vulkan Device",Info);
         if(device) device.destroy();
     }
 

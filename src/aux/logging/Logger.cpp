@@ -7,7 +7,7 @@
 #include <sstream>
 #include <aux/time/TimeUtils.hpp>
 
-namespace mt::aux {
+namespace mt {
 	Logger &Logger::get_instance() {
 		static Logger instance;
 		return instance;

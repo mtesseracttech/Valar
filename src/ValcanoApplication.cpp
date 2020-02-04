@@ -10,7 +10,7 @@
 
 namespace mt {
 	ValcanoApplication::ValcanoApplication(uint32_t win_width, uint32_t win_height, const std::string &app_name) {
-        aux::Logger::log("Valcano application running from: " + io::get_execution_path());
+        Logger::log("Valcano application running from: " + io::get_execution_path(), Info);
         window_manager = std::make_shared<gfx::WindowManager>();
         main_window = std::make_shared<gfx::ContextWindow>(win_width, win_height, app_name);
         window_manager->set_main_window(main_window);

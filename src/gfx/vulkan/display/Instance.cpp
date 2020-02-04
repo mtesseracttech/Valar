@@ -44,27 +44,27 @@ namespace mt::gfx::mtvk {
 		inst_info << "Vulkan Instance Version: " << VK_VERSION_MAJOR(instance_version) <<
 		          '.' << VK_VERSION_MINOR(instance_version) <<
 		          '.' << VK_VERSION_PATCH(instance_version);
-		aux::Logger::log(inst_info, aux::LogType::Info);
+		Logger::log(inst_info, Info);
 
 		std::vector<vk::ExtensionProperties> available_instance_extensions = vk::enumerateInstanceExtensionProperties();
 
-		aux::Logger::log("Available Instance Extensions: " + std::to_string(available_instance_extensions.size()), aux::LogType::Info);
+		Logger::log("Available Instance Extensions: " + std::to_string(available_instance_extensions.size()), Info);
 		for (const auto &extension : available_instance_extensions) {
-			aux::Logger::log("\t" + std::string(extension.extensionName), aux::LogType::Info);
+			Logger::log("\t" + std::string(extension.extensionName), Info);
 		}
 	}
 
     void Instance::destroy() {
-        aux::Logger::log("Destroyed Vulkan Instance", aux::LogType::Info);
+        Logger::log("Destroyed Vulkan Instance", Info);
         instance.destroy();
     }
 
 	bool Instance::check_validation_layer_support() {
 		std::vector<vk::LayerProperties> available_layers = vk::enumerateInstanceLayerProperties();
 
-		aux::Logger::log("Available Instance Layers: " + std::to_string(available_layers.size()), aux::LogType::Info);
+		Logger::log("Available Instance Layers: " + std::to_string(available_layers.size()), Info);
 		for (const auto &layer : available_layers) {
-			aux::Logger::log("\t" + std::string(layer.layerName), aux::LogType::Info);
+			Logger::log("\t" + std::string(layer.layerName), Info);
 		}
 
 		for (const auto val_layer : validation_layers) {
@@ -78,7 +78,7 @@ namespace mt::gfx::mtvk {
 			}
 
 			if (!layerFound) {
-                aux::Logger::log("Could not find the validation layer: " + std::string(val_layer), aux::LogType::Error);
+                Logger::log("Could not find the validation layer: " + std::string(val_layer), Error);
 				return false;
 			}
 		}

@@ -8,7 +8,7 @@
 namespace mt::gfx {
 
 	Renderer::Renderer(const std::shared_ptr<ContextWindow>& render_window, const std::string& app_name) : window(render_window){
-        aux::Logger::log("Creating the renderer", aux::LogType::Info);
+        Logger::log("Creating the renderer", LogType::Info);
 
         instance = std::make_shared<mtvk::Instance>(app_name);
 	    if(instance->has_validation_layers()){
@@ -21,7 +21,7 @@ namespace mt::gfx {
         auto test_shader = mtvk::Shader("base", device, mtvk::ShaderSourceType::GLSL);
         pipeline = std::make_shared<mtvk::GraphicsPipeline>(device, *render_pass, *swapchain, test_shader);
 	    swapchain->create_framebuffers(*render_pass);
-	    command_buffer = std::make_shared<mtvk::CommandBuffer>(device, *swapchain);
+	    command_buffer = std::make_shared<mtvk::CommandBuffer>(device, swapchain, render_pass);
 	}
 
     void Renderer::terminate(){
@@ -34,40 +34,43 @@ namespace mt::gfx {
         surface->destroy();
         if(debugging) debugging->destroy();
         instance->destroy();
-        aux::Logger::log("Done terminating the renderer", aux::LogType::Info);
+        Logger::log("Done terminating the renderer", Info);
     }
 
     void Renderer::draw() {
-        auto frame_buffers = swapchain->get_framebuffers();
+        Logger::log("Render starting now", Info);
 
-        for (std::size_t i = 0; i < command_buffer->get_buffer_count(); i++) {
-            auto current_buffer = command_buffer->get_buffer_at(i);
+        auto command_buffers = command_buffer->get_command_buffers();
+        auto framebuffers = swapchain->get_framebuffers();
 
+        for (std::size_t i = 0; i < command_buffers.size(); ++i) {
             vk::CommandBufferBeginInfo begin_info;
-            begin_info.flags = vk::CommandBufferUsageFlags(0);
+            begin_info.flags = {};
             begin_info.pInheritanceInfo = nullptr;
 
-            current_buffer.begin(begin_info);
+            command_buffers[i].begin(begin_info);
 
             vk::RenderPassBeginInfo render_pass_info;
             render_pass_info.renderPass = render_pass->get_render_pass();
-            render_pass_info.framebuffer = frame_buffers[i];
-            render_pass_info.renderArea.offset = vk::Offset2D(0,0);
+            render_pass_info.framebuffer = framebuffers[i];
+
+            render_pass_info.renderArea.offset = vk::Offset2D(0, 0);
             render_pass_info.renderArea.extent = swapchain->get_extent();
 
-            std::array<float, 4> clear_color = {0,0,0,1};
-            vk::ClearValue color(clear_color);
-
+            vk::ClearValue clear_color = vk::ClearColorValue(std::array<float, 4>{1, 2, 3, 4});
             render_pass_info.clearValueCount = 1;
-            render_pass_info.pClearValues = &color;
+            render_pass_info.pClearValues = &clear_color;
 
-            current_buffer.beginRenderPass(render_pass_info, vk::SubpassContents::eInline);
-            current_buffer.bindPipeline(vk::PipelineBindPoint::eGraphics, pipeline->get_pipeline());
-
-            current_buffer.draw(3,1,0,0);
-
-            current_buffer.endRenderPass();
-            current_buffer.end();
+            command_buffers[i].beginRenderPass(render_pass_info, vk::SubpassContents::eInline);
+            command_buffers[i].bindPipeline(vk::PipelineBindPoint::eGraphics, pipeline->get_pipeline());
+            command_buffers[i].draw(3, 1, 0, 0);
+            command_buffers[i].endRenderPass();
+            command_buffers[i].end();
         }
+
+        while(!window->should_close()){
+            window->process_events();
+	    }
+        Logger::log("Render loop exited now", Info);
     }
 }

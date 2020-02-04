@@ -13,7 +13,7 @@ namespace mt::gfx::mtvk {
         if(glfwCreateWindowSurface(instance->get_instance(), window.get_window(), nullptr, reinterpret_cast<VkSurfaceKHR*>(&surface))){
             throw std::runtime_error("Failed to create window surface!");
         }
-        aux::Logger::log("Created the Window Surface", aux::LogType::Info);
+        Logger::log("Created the Window Surface", Info);
     }
 
     vk::SurfaceKHR Surface::get_surface() const {
@@ -22,6 +22,6 @@ namespace mt::gfx::mtvk {
 
     void Surface::destroy() {
         instance->get_instance().destroySurfaceKHR(surface);
-        aux::Logger::log("Destroyed the Window Surface", aux::LogType::Info);
+        Logger::log("Destroyed the Window Surface", Info);
     }
 }

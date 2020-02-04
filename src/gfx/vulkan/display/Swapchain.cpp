@@ -52,11 +52,11 @@ namespace mt::gfx::mtvk {
 
         swapchain = device->get_device().createSwapchainKHR(create_info);
 
-        aux::Logger::log("Set up Swapchain", aux::LogType::Info);
+        Logger::log("Set up Swapchain", Info);
 
         images = device->get_device().getSwapchainImagesKHR(swapchain);
 
-        aux::Logger::log("Created Swapchain Images", aux::LogType::Info);
+        Logger::log("Created Swapchain Images", Info);
 
         image_format = surface_format.format;
         extent = swapchain_extent;
@@ -117,7 +117,7 @@ namespace mt::gfx::mtvk {
         for (auto image_view : image_views) {
             if(image_view) device->get_device().destroyImageView(image_view);
         }
-        aux::Logger::log("Destroyed Swapchain Image Views", aux::LogType::Info);
+        Logger::log("Destroyed Swapchain Image Views", Info);
     }
 
     vk::Extent2D Swapchain::get_extent() const {
@@ -131,7 +131,7 @@ namespace mt::gfx::mtvk {
     void Swapchain::destroy() {
         destroy_image_views();
         if(swapchain) device->get_device().destroySwapchainKHR(swapchain);
-        aux::Logger::log("Destroyed Swapchain", aux::LogType::Info);
+        Logger::log("Destroyed Swapchain", Info);
     }
 
     void Swapchain::create_framebuffers(const RenderPass &render_pass) {
@@ -159,7 +159,7 @@ namespace mt::gfx::mtvk {
             device->get_device().destroyFramebuffer(framebuffer);
         }
         framebuffers.clear();
-        aux::Logger::log("Destroyed Swapchain Framebuffers", aux::LogType::Info);
+        Logger::log("Destroyed Swapchain Framebuffers", Info);
     }
 
     std::vector<vk::Framebuffer> Swapchain::get_framebuffers() const {

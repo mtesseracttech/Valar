@@ -10,7 +10,7 @@
 #include <string>
 #include "util/StringUtils.hpp"
 
-namespace mt::aux {
+namespace mt {
 	enum LogLevel {
 		LevelAll = 0,
 		LevelDebug = 1,
