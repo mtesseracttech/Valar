@@ -59,6 +59,8 @@ namespace mt::gfx::mtvk {
         vk::PhysicalDevice get_physical_device();
 
         QueueFamilyIndices get_queue_indices();
+
+        void wait_till_idle();
     };
 }
 

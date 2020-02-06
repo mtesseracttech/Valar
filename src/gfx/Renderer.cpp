@@ -19,15 +19,17 @@ namespace mt::gfx {
 	    swapchain = std::make_shared<mtvk::Swapchain>(device , *surface, *window);
 	    render_pass = std::make_shared<mtvk::RenderPass>(device, *swapchain);
         auto test_shader = mtvk::Shader("base", device, mtvk::ShaderSourceType::GLSL);
-        pipeline = std::make_shared<mtvk::GraphicsPipeline>(device, *render_pass, *swapchain, test_shader);
+        test_shader_pipeline = std::make_shared<mtvk::GraphicsPipeline>(device, test_shader, *render_pass, *swapchain);
 	    swapchain->create_framebuffers(*render_pass);
 	    command_buffer = std::make_shared<mtvk::CommandBuffer>(device, swapchain, render_pass);
 	}
 
     void Renderer::terminate(){
+	    //Manually doing this to make sure things get destroyed in the correct order,
+	    //I don't think there is a proper way to enforce this with C++'s smart pointers
 	    command_buffer->destroy();
 	    swapchain->destroy_framebuffers();
-	    pipeline->destroy();
+        test_shader_pipeline->destroy();
 	    render_pass->destroy();
         swapchain->destroy();
         device->destroy();
@@ -62,7 +64,7 @@ namespace mt::gfx {
             render_pass_info.pClearValues = &clear_color;
 
             command_buffers[i].beginRenderPass(render_pass_info, vk::SubpassContents::eInline);
-            command_buffers[i].bindPipeline(vk::PipelineBindPoint::eGraphics, pipeline->get_pipeline());
+            command_buffers[i].bindPipeline(vk::PipelineBindPoint::eGraphics, test_shader_pipeline->get_pipeline());
             command_buffers[i].draw(3, 1, 0, 0);
             command_buffers[i].endRenderPass();
             command_buffers[i].end();
@@ -71,6 +73,9 @@ namespace mt::gfx {
         while(!window->should_close()){
             window->process_events();
 	    }
+
+        device->wait_till_idle();
+
         Logger::log("Render loop exited now", Info);
     }
 }

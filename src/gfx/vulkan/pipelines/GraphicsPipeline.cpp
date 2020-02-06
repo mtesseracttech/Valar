@@ -7,9 +7,9 @@
 
 namespace mt::gfx::mtvk {
     GraphicsPipeline::GraphicsPipeline(const std::shared_ptr<Device>& device,
+                                       const Shader& shader,
                                        const RenderPass& render_pass,
-                                       const Swapchain& swapchain,
-                                       const Shader& shader) : device(device){
+                                       const Swapchain& swapchain) : Pipeline(device, shader) {
         auto swapchain_extent = swapchain.get_extent();
 
         vk::PipelineVertexInputStateCreateInfo vertex_input_info;
@@ -120,15 +120,6 @@ namespace mt::gfx::mtvk {
         pipeline_create_info.basePipelineHandle = nullptr;
         pipeline_create_info.basePipelineIndex = -1;
 
-        graphics_pipeline = device->get_device().createGraphicsPipeline(nullptr, pipeline_create_info);
-    }
-
-    void GraphicsPipeline::destroy() {
-        device->get_device().destroyPipeline(graphics_pipeline);
-        device->get_device().destroyPipelineLayout(pipeline_layout);
-    }
-
-    vk::Pipeline GraphicsPipeline::get_pipeline() const {
-        return graphics_pipeline;
+        pipeline = device->get_device().createGraphicsPipeline(nullptr, pipeline_create_info);
     }
 }

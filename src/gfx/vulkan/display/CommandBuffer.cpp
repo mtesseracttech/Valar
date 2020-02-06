@@ -21,6 +21,8 @@ namespace mt::gfx::mtvk {
         Logger::log("Created Command Pool", Info);
 
         create_command_buffers();
+
+        create_semaphores();
     }
 
     void CommandBuffer::create_command_buffers() {
@@ -39,7 +41,10 @@ namespace mt::gfx::mtvk {
 
 
     void CommandBuffer::destroy() {
-        device->get_device().destroyCommandPool(command_pool);
+        auto device = this->device->get_device();
+        device.destroySemaphore(render_finished_semaphore);
+        device.destroySemaphore(image_available_semaphore);
+        device.destroyCommandPool(command_pool);
         Logger::log("Destroyed Command Pool", Info);
     }
 
@@ -49,5 +54,13 @@ namespace mt::gfx::mtvk {
 
     std::vector<vk::CommandBuffer> CommandBuffer::get_command_buffers() const {
         return command_buffers;
+    }
+
+    void CommandBuffer::create_semaphores() {
+        //Could be added to Should be part of Command Buffer (and split Command Buffer into Single and Multi)
+        vk::SemaphoreCreateInfo semaphore_info;
+        image_available_semaphore = device->get_device().createSemaphore(semaphore_info);
+        render_finished_semaphore = device->get_device().createSemaphore(semaphore_info);
+        Logger::log("Created Semaphores", Info);
     }
 }

@@ -183,4 +183,8 @@ namespace mt::gfx::mtvk {
         if(device) device.destroy();
     }
 
+    void Device::wait_till_idle(){
+	    device.waitIdle();
+	}
+
 }

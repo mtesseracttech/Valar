@@ -28,8 +28,9 @@ namespace mt::gfx{
 		std::shared_ptr<mtvk::Surface> surface;
 		std::shared_ptr<mtvk::Swapchain> swapchain;
         std::shared_ptr<mtvk::RenderPass> render_pass;
-        std::shared_ptr<mtvk::GraphicsPipeline> pipeline;
         std::shared_ptr<mtvk::CommandBuffer> command_buffer;
+        //Pipelines should be managed by a resource cache (with a pipeline cache)
+        std::shared_ptr<mtvk::GraphicsPipeline> test_shader_pipeline;
 
     public:
 		Renderer(const std::shared_ptr<ContextWindow>& render_window, const std::string& app_name);
