@@ -187,4 +187,12 @@ namespace mt::gfx::mtvk {
 	    device.waitIdle();
 	}
 
+    vk::Queue Device::get_present_queue() const {
+        return present_queue;
+    }
+
+    vk::Queue Device::get_graphics_queue() const {
+        return graphics_queue;
+    }
+
 }

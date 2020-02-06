@@ -23,6 +23,14 @@ namespace mt::gfx::mtvk {
         vk::Semaphore image_available_semaphore;
         vk::Semaphore render_finished_semaphore;
 
+    protected:
+
+        void allocate_command_buffers();
+
+        void create_command_buffers();
+
+        void create_semaphores();
+
     public:
         explicit CommandBuffer(const std::shared_ptr<Device>& device, const std::shared_ptr<Swapchain>& swapchain, const std::shared_ptr<RenderPass>& render_pass);
         ~CommandBuffer() = default;
@@ -33,9 +41,9 @@ namespace mt::gfx::mtvk {
 
         std::vector<vk::CommandBuffer> get_command_buffers() const;
 
-        void create_command_buffers();
+        void create_command_buffers(const GraphicsPipeline &pipeline);
 
-        void create_semaphores();
+        void submit_command_buffers();
     };
 }
 

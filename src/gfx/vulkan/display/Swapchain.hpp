@@ -42,6 +42,8 @@ namespace mt::gfx::mtvk {
         vk::Extent2D get_extent() const;
         vk::Format get_format() const;
 
+        vk::SwapchainKHR get_swapchain() const;
+
         std::vector<vk::Framebuffer> get_framebuffers() const;
 
     };

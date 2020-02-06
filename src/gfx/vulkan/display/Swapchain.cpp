@@ -165,4 +165,8 @@ namespace mt::gfx::mtvk {
     std::vector<vk::Framebuffer> Swapchain::get_framebuffers() const {
         return framebuffers;
     }
+
+    vk::SwapchainKHR Swapchain::get_swapchain() const {
+        return swapchain;
+    }
 }

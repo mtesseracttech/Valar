@@ -26,11 +26,21 @@ namespace mt::gfx::mtvk {
         subpass.pipelineBindPoint    = vk::PipelineBindPoint::eGraphics;
         subpass.pColorAttachments    = &color_attachment_ref;
 
+        vk::SubpassDependency dependency;
+        dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
+        dependency.dstSubpass = 0;
+        dependency.srcStageMask = vk::PipelineStageFlagBits::eColorAttachmentOutput;
+        dependency.srcAccessMask = vk::AccessFlagBits(0);
+        dependency.dstStageMask = vk::PipelineStageFlagBits::eColorAttachmentOutput;
+        dependency.dstAccessMask = vk::AccessFlagBits::eColorAttachmentRead | vk::AccessFlagBits::eColorAttachmentWrite;
+
         vk::RenderPassCreateInfo create_info;
         create_info.attachmentCount    = 1;
         create_info.pAttachments       = &color_attachment;
         create_info.subpassCount       = 1;
         create_info.pSubpasses         = &subpass;
+        create_info.dependencyCount    = 1;
+        create_info.pDependencies      = &dependency;
 
         render_pass = device->get_device().createRenderPass(create_info);
     }

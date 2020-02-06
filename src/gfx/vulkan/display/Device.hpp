@@ -58,6 +58,9 @@ namespace mt::gfx::mtvk {
         vk::Device get_device();
         vk::PhysicalDevice get_physical_device();
 
+        vk::Queue get_graphics_queue() const;
+        vk::Queue get_present_queue() const;
+
         QueueFamilyIndices get_queue_indices();
 
         void wait_till_idle();
