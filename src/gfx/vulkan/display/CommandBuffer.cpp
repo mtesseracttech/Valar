@@ -84,7 +84,7 @@ namespace mt::gfx::mtvk {
             render_pass_info.renderArea.offset = vk::Offset2D(0, 0);
             render_pass_info.renderArea.extent = swapchain->get_extent();
 
-            vk::ClearValue clear_color = vk::ClearColorValue(std::array<float, 4>{1, 2, 3, 4});
+            vk::ClearValue clear_color = vk::ClearColorValue(std::array<float, 4>{0.0, 0.0, 0.0, 1.0});
             render_pass_info.clearValueCount = 1;
             render_pass_info.pClearValues = &clear_color;
 

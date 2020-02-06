@@ -24,6 +24,7 @@ namespace mt::gfx::mtvk {
 
         vk::SubpassDescription subpass;
         subpass.pipelineBindPoint    = vk::PipelineBindPoint::eGraphics;
+        subpass.colorAttachmentCount = 1;
         subpass.pColorAttachments    = &color_attachment_ref;
 
         vk::SubpassDependency dependency;

@@ -75,8 +75,8 @@ namespace mt::gfx::mtvk {
         color_blend_attachment.alphaBlendOp           = vk::BlendOp ::eAdd;
 
         vk::PipelineColorBlendStateCreateInfo color_blend_create_info;
-        color_blend_create_info.logicOpEnable        = true;
-        color_blend_create_info.logicOp              = vk::LogicOp ::eCopy;
+        color_blend_create_info.logicOpEnable        = false;
+        color_blend_create_info.logicOp              = vk::LogicOp::eCopy;
         color_blend_create_info.attachmentCount      = 1;
         color_blend_create_info.pAttachments         = &color_blend_attachment;
         color_blend_create_info.blendConstants[0]    = 0.0f;
