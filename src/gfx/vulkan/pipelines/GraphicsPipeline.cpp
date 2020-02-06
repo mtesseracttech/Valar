@@ -84,14 +84,14 @@ namespace mt::gfx::mtvk {
         color_blend_create_info.blendConstants[2]    = 0.0f;
         color_blend_create_info.blendConstants[3]    = 0.0f;
 
-        std::array<vk::DynamicState, 2> dynamic_states = {
-                vk::DynamicState ::eViewport,
-                vk::DynamicState ::eLineWidth
-        };
-
-        vk::PipelineDynamicStateCreateInfo dynamic_state_create_info;
-        dynamic_state_create_info.dynamicStateCount    = 2;
-        dynamic_state_create_info.pDynamicStates       = dynamic_states.data();
+//        std::array<vk::DynamicState, 2> dynamic_states = {
+//                vk::DynamicState ::eViewport,
+//                vk::DynamicState ::eLineWidth
+//        };
+//
+//        vk::PipelineDynamicStateCreateInfo dynamic_state_create_info;
+//        dynamic_state_create_info.dynamicStateCount    = 2;
+//        dynamic_state_create_info.pDynamicStates       = dynamic_states.data();
 
         vk::PipelineLayoutCreateInfo pipeline_layout_create_info;
         pipeline_layout_create_info.setLayoutCount            = 0;
@@ -113,7 +113,7 @@ namespace mt::gfx::mtvk {
         pipeline_create_info.pMultisampleState = &multisample_create_info;
         pipeline_create_info.pDepthStencilState = nullptr;
         pipeline_create_info.pColorBlendState = &color_blend_create_info;
-        pipeline_create_info.pDynamicState = &dynamic_state_create_info;
+        pipeline_create_info.pDynamicState = nullptr;
         pipeline_create_info.layout = pipeline_layout;
         pipeline_create_info.renderPass = render_pass.get_render_pass();
         pipeline_create_info.subpass = 0;
