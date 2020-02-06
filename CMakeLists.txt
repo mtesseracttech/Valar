@@ -24,6 +24,8 @@ option(ASSIMP_BUILD_TESTS OFF)
 add_subdirectory(libs/assimp)
 
 #Adding shaderc
+option(SHADERC_ENABLE_TESTS OFF)
+option(EFFCEE_BUILD_TESTING OFF)
 option(BUILD_TESTING OFF)
 option(BUILD_GMOCK OFF)
 option(ENABLE_CTEST OFF)
