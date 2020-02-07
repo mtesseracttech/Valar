@@ -16,17 +16,22 @@ namespace mt::gfx{
 	class ContextWindow : public std::enable_shared_from_this<ContextWindow>  {
 	protected:
 		int width = 0;
+
 		int height = 0;
+
 		GLFWwindow * window = nullptr;
 
 		std::string title;
 
+		std::weak_ptr<Swapchain> swapchain;
 	public:
 		ContextWindow(uint32_t width, uint32_t height, const std::string& window_title);
 		~ContextWindow();
+
 		void framebuffer_resized(uint32_t width, uint32_t height);
 
 		bool should_close();
+
 		void process_events();
 
         GLFWwindow * get_window() const;

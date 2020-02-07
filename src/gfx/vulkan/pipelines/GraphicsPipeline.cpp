@@ -62,17 +62,17 @@ namespace mt::gfx::mtvk {
         multisample_create_info.alphaToOneEnable         = false;
 
         vk::PipelineColorBlendAttachmentState color_blend_attachment;
-        color_blend_attachment.colorWriteMask         = vk::ColorComponentFlagBits ::eR |
-                                                        vk::ColorComponentFlagBits ::eG |
-                                                        vk::ColorComponentFlagBits ::eB |
-                                                        vk::ColorComponentFlagBits ::eA;
+        color_blend_attachment.colorWriteMask         = vk::ColorComponentFlagBits::eR |
+                                                        vk::ColorComponentFlagBits::eG |
+                                                        vk::ColorComponentFlagBits::eB |
+                                                        vk::ColorComponentFlagBits::eA;
         color_blend_attachment.blendEnable            = true;
-        color_blend_attachment.srcColorBlendFactor    = vk::BlendFactor ::eSrcAlpha;
+        color_blend_attachment.srcColorBlendFactor    = vk::BlendFactor::eSrcAlpha;
         color_blend_attachment.dstColorBlendFactor    = vk::BlendFactor::eOneMinusSrcAlpha;
-        color_blend_attachment.colorBlendOp           = vk::BlendOp ::eAdd;
-        color_blend_attachment.srcAlphaBlendFactor    = vk::BlendFactor ::eOne;
-        color_blend_attachment.dstAlphaBlendFactor    = vk::BlendFactor ::eZero;
-        color_blend_attachment.alphaBlendOp           = vk::BlendOp ::eAdd;
+        color_blend_attachment.colorBlendOp           = vk::BlendOp::eAdd;
+        color_blend_attachment.srcAlphaBlendFactor    = vk::BlendFactor::eOne;
+        color_blend_attachment.dstAlphaBlendFactor    = vk::BlendFactor::eZero;
+        color_blend_attachment.alphaBlendOp           = vk::BlendOp::eAdd;
 
         vk::PipelineColorBlendStateCreateInfo color_blend_create_info;
         color_blend_create_info.logicOpEnable        = false;
