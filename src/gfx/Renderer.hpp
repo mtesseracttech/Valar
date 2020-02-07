@@ -32,13 +32,20 @@ namespace mt::gfx{
         //Pipelines should be managed by a resource cache (with a pipeline cache)
         std::shared_ptr<mtvk::GraphicsPipeline> test_shader_pipeline;
 
+        uint32_t max_frames_in_flight;
     public:
-		Renderer(const std::shared_ptr<ContextWindow>& render_window, const std::string& app_name);
+		Renderer(const std::shared_ptr<ContextWindow>& render_window, const std::string& app_name, uint32_t max_frames_in_flight = 1);
 		~Renderer() = default;
 
 		void draw();
 
 		void terminate();
+
+		void on_resize(uint32_t new_width, uint32_t new_height);
+
+		void recreate_swapchain();
+
+		void cleanup_swapchain();
 	};
 }
 

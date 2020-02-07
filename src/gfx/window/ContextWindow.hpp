@@ -13,6 +13,8 @@
 #include "vulkan/vulkan.hpp"
 
 namespace mt::gfx{
+    class Renderer;
+
 	class ContextWindow : public std::enable_shared_from_this<ContextWindow>  {
 	protected:
 		int width = 0;
@@ -23,7 +25,8 @@ namespace mt::gfx{
 
 		std::string title;
 
-		std::weak_ptr<Swapchain> swapchain;
+		std::weak_ptr<Renderer> renderer;
+
 	public:
 		ContextWindow(uint32_t width, uint32_t height, const std::string& window_title);
 		~ContextWindow();
@@ -42,6 +45,9 @@ namespace mt::gfx{
 		vk::Extent2D get_extent() const;
 
 		std::string get_title() const;
+		void set_title(const std::string& title);
+
+		void set_renderer(const std::weak_ptr<Renderer>& renderer);
 	};
 }
 

@@ -6,10 +6,10 @@
 #include "Renderer.hpp"
 
 namespace mt::gfx {
-
-	Renderer::Renderer(const std::shared_ptr<ContextWindow>& render_window, const std::string& app_name) : window(render_window){
+	Renderer::Renderer(const std::shared_ptr<ContextWindow>& render_window, const std::string& app_name, uint32_t max_frames_in_flight) :
+            window(render_window),
+            max_frames_in_flight(max_frames_in_flight){
         Logger::log("Creating the renderer", LogType::Info);
-
         instance = std::make_shared<mtvk::Instance>(app_name);
 	    if(instance->has_validation_layers()){
 	    	debugging = std::make_shared<mtvk::VulkanDebug>(instance);
@@ -21,19 +21,15 @@ namespace mt::gfx {
         auto test_shader = mtvk::Shader("base", device, mtvk::ShaderSourceType::GLSL);
         test_shader_pipeline = std::make_shared<mtvk::GraphicsPipeline>(device, test_shader, *render_pass, *swapchain);
 	    swapchain->create_framebuffers(*render_pass);
-	    command_buffer = std::make_shared<mtvk::CommandBuffer>(device, swapchain, render_pass);
-
+	    command_buffer = std::make_shared<mtvk::CommandBuffer>(device, swapchain, render_pass, max_frames_in_flight);
 	    command_buffer->create_command_buffers(*test_shader_pipeline);
 	}
 
     void Renderer::draw() {
 	    command_buffer->submit_command_buffers();
-
-
     }
 
     void Renderer::terminate(){
-        device->wait_till_idle();
         //Manually doing this to make sure things get destroyed in the correct order,
         //I don't think there is a proper way to enforce this with C++'s smart pointers
         command_buffer->destroy();
@@ -46,5 +42,23 @@ namespace mt::gfx {
         if(debugging) debugging->destroy();
         instance->destroy();
         Logger::log("Done terminating the renderer", Info);
+    }
+
+    void Renderer::on_resize(uint32_t new_width, uint32_t new_height) {
+        //device->wait_till_idle();
+	    //cleanup_swapchain();
+        Logger::log("Framebuffer Resized to: " + std::to_string(new_width) + "x" + std::to_string(new_height));
+    }
+
+    void Renderer::cleanup_swapchain() {
+        swapchain->destroy_framebuffers();
+        //Free command buffers
+        test_shader_pipeline->destroy();
+        render_pass->destroy();
+        swapchain->destroy();
+    }
+
+    void Renderer::recreate_swapchain() {
+	    device->wait_till_idle();
     }
 }

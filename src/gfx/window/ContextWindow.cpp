@@ -6,6 +6,7 @@
 #include "ContextWindow.hpp"
 #include "vulkan/vulkan.hpp"
 #include "GLFW/glfw3.h"
+#include <gfx/Renderer.hpp>
 
 namespace mt::gfx{
 
@@ -30,9 +31,17 @@ namespace mt::gfx{
 	}
 
 	void ContextWindow::framebuffer_resized(uint32_t new_width, uint32_t new_height) {
-        width = static_cast<int>(new_width);
-        height = static_cast<int>(new_height);
-        Logger::log("Framebuffer Resized to: " + std::to_string(width) + "x" + std::to_string(height));
+        width = new_width;
+        height = new_height;
+
+        std::stringstream ss;
+        ss << width << "x" << height;
+
+        set_title(ss.str());
+
+        if(!renderer.expired()){
+			renderer.lock()->on_resize(width, height);
+        }
     }
 
 	bool ContextWindow::should_close() {
@@ -53,11 +62,11 @@ namespace mt::gfx{
     }
 
     uint32_t ContextWindow::get_width() const {
-        return static_cast<uint32_t>(width);
+        return width;
     }
 
     uint32_t ContextWindow::get_height() const {
-        return static_cast<uint32_t>(height);
+        return height;
     }
 
     vk::Extent2D ContextWindow::get_extent() const {
@@ -75,4 +84,16 @@ namespace mt::gfx{
     std::string ContextWindow::get_title() const {
         return title;
     }
+
+    void ContextWindow::set_renderer(const std::weak_ptr<Renderer>& renderer) {
+	    this->renderer = renderer;
+    }
+
+    void ContextWindow::set_title(const std::string& title) {
+	    this->title = title;
+	    if(window){
+            glfwSetWindowTitle(window, title.c_str());
+        }
+    }
+
 }

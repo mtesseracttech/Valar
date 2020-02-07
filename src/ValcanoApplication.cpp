@@ -14,7 +14,8 @@ namespace mt {
         window_manager = std::make_shared<gfx::WindowManager>();
         main_window = std::make_shared<gfx::ContextWindow>(win_width, win_height, app_name);
         window_manager->set_main_window(main_window);
-        renderer = std::make_shared<gfx::Renderer>(main_window, app_name);
+        renderer = std::make_shared<gfx::Renderer>(main_window, app_name, 2);
+        main_window->set_renderer(renderer);
 	}
 
 	void ValcanoApplication::run() {

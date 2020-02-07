@@ -115,7 +115,6 @@ namespace mt::gfx::mtvk {
             for(auto framebuffer : framebuffers){
                 device->get_device().destroyFramebuffer(framebuffer);
             }
-            framebuffers.clear();
             Logger::log("Destroyed Swapchain Framebuffers", Info);
         }
 
@@ -132,6 +131,10 @@ namespace mt::gfx::mtvk {
 
         std::vector<vk::Framebuffer> get_framebuffers() const {
             return framebuffers;
+        }
+
+        std::vector<vk::Image> get_images() const{
+            return images;
         }
 
 

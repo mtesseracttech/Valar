@@ -12,6 +12,8 @@ namespace mt::gfx::mtvk {
                                        const Swapchain& swapchain) : Pipeline(device, shader) {
         auto swapchain_extent = swapchain.get_extent();
 
+        bind_point = vk::PipelineBindPoint::eGraphics;
+
         vk::PipelineVertexInputStateCreateInfo vertex_input_info;
         vertex_input_info.vertexBindingDescriptionCount      = 0;
         vertex_input_info.pVertexBindingDescriptions         = nullptr;

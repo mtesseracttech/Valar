@@ -63,6 +63,41 @@ namespace mt::gfx::mtvk {
 
         ~Device() = default;
 
+        //Call this to destroy the vulkan device, at the very end of all vulkan activity
+        void destroy(){
+            Logger::log("Destroyed Vulkan Device",Info);
+            if(device) device.destroy();
+        }
+
+        //Wait till device is idle to load resources/close the device properly
+        void wait_till_idle(){
+            device.waitIdle();
+        }
+
+        //Returns the command queue indices
+        QueueFamilyIndices get_queue_indices() const {
+            return indices;
+        }
+
+        //Gets the physical device (contains capabilities, specs, etc.)
+        vk::PhysicalDevice get_physical_device() const {
+            return physical_device;
+        }
+
+        //Gets the logical device (used for most vulkan functionality)
+        vk::Device get_device() const {
+            return device;
+        }
+
+        //The Command Queues to which to submit commandbuffers to.
+        vk::Queue get_graphics_queue() const{
+            return graphics_queue;
+        }
+
+        vk::Queue get_present_queue() const{
+            return present_queue;
+        }
+
 	private:
 		static vk::PhysicalDevice select_best_physical_device(std::vector<vk::PhysicalDevice> physical_devices,  const vk::SurfaceKHR& surface){
             if (physical_devices.empty()) {
@@ -206,42 +241,7 @@ namespace mt::gfx::mtvk {
             return required_extensions.empty();
         }
 
-	public:
 
-        //Returns the command queue indices
-        QueueFamilyIndices get_queue_indices() const {
-            return indices;
-        }
-
-        //Gets the physical device (contains capabilities, specs, etc.)
-        vk::PhysicalDevice get_physical_device() const {
-            return physical_device;
-        }
-
-        //Gets the logical device (used for most vulkan functionality)
-        vk::Device get_device() const {
-            return device;
-        }
-
-        //The Command Queues to which to submit commandbuffers to.
-        vk::Queue get_graphics_queue() const{
-		    return graphics_queue;
-		}
-
-        vk::Queue get_present_queue() const{
-            return present_queue;
-		}
-
-		//Wait till device is idle to load resources/close the device properly
-        void wait_till_idle(){
-            device.waitIdle();
-        }
-
-        //Call this to destroy the vulkan device, at the very end of all vulkan activity
-        void destroy(){
-            Logger::log("Destroyed Vulkan Device",Info);
-            if(device) device.destroy();
-        }
     };
 }
 

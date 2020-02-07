@@ -14,8 +14,12 @@ namespace mt::gfx::mtvk {
 
         vk::PipelineLayout pipeline_layout;
         vk::Pipeline pipeline;
+
+        vk::PipelineBindPoint bind_point;
     public:
-        Pipeline(const std::shared_ptr<Device>& device, const Shader& shader) : device(device) {}
+        Pipeline(const std::shared_ptr<Device>& device, const Shader& shader) : device(device) {
+            (void)shader; //to make clang-tidy stop complaining
+        }
 
         virtual ~Pipeline(){};
 
@@ -26,6 +30,10 @@ namespace mt::gfx::mtvk {
 
         vk::Pipeline get_pipeline() const{
             return pipeline;
+        }
+
+        vk::PipelineBindPoint get_bind_point() const {
+            return bind_point;
         }
     };
 

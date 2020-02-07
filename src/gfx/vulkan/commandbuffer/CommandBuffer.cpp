@@ -10,7 +10,12 @@
 namespace mt::gfx::mtvk {
     CommandBuffer::CommandBuffer(const std::shared_ptr<Device> &device,
             const std::shared_ptr<Swapchain>& swapchain,
-            const std::shared_ptr<RenderPass>& render_pass) : device(device), swapchain(swapchain), render_pass(render_pass){
+            const std::shared_ptr<RenderPass>& render_pass, uint32_t max_frames_in_flight) :
+                device(device),
+                swapchain(swapchain),
+                render_pass(render_pass),
+                max_frames_in_flight(max_frames_in_flight) {
+
         auto indices = device->get_queue_indices();
 
         vk::CommandPoolCreateInfo pool_create_info;
@@ -22,7 +27,7 @@ namespace mt::gfx::mtvk {
 
         allocate_command_buffers();
 
-        create_semaphores();
+        create_sync_objects();
     }
 
     void CommandBuffer::allocate_command_buffers() {
@@ -40,33 +45,36 @@ namespace mt::gfx::mtvk {
     }
 
 
-
-
     void CommandBuffer::destroy() {
         auto device = this->device->get_device();
-        device.destroySemaphore(render_finished_semaphore);
-        device.destroySemaphore(image_available_semaphore);
+        for(std::size_t i = 0; i < max_frames_in_flight; ++i){
+            device.destroy(image_available_semaphores[i]);
+            device.destroy(render_finished_semaphores[i]);
+            device.destroy(in_flight_fences[i]);
+        }
         device.destroyCommandPool(command_pool);
         Logger::log("Destroyed Command Pool", Info);
     }
 
-    vk::CommandPool CommandBuffer::get_command_pool() const {
-        return command_pool;
-    }
+    void CommandBuffer::create_sync_objects() {
+        image_available_semaphores.resize(max_frames_in_flight);
+        render_finished_semaphores.resize(max_frames_in_flight);
+        in_flight_fences.resize(max_frames_in_flight);
+        images_in_flight.resize(swapchain->get_images().size(), nullptr);
 
-    std::vector<vk::CommandBuffer> CommandBuffer::get_command_buffers() const {
-        return command_buffers;
-    }
-
-    void CommandBuffer::create_semaphores() {
-        //Could be added to Should be part of Command Buffer (and split Command Buffer into Single and Multi)
         vk::SemaphoreCreateInfo semaphore_info;
-        image_available_semaphore = device->get_device().createSemaphore(semaphore_info);
-        render_finished_semaphore = device->get_device().createSemaphore(semaphore_info);
+        vk::FenceCreateInfo fence_info;
+        fence_info.flags = vk::FenceCreateFlagBits::eSignaled;
+
+        for(std::size_t i = 0; i < max_frames_in_flight; ++i){
+            image_available_semaphores[i] = device->get_device().createSemaphore(semaphore_info);
+            render_finished_semaphores[i] = device->get_device().createSemaphore(semaphore_info);
+            in_flight_fences[i] = device->get_device().createFence(fence_info);
+        }
         Logger::log("Created Semaphores", Info);
     }
 
-    void CommandBuffer::create_command_buffers(const GraphicsPipeline& pipeline) {
+    void CommandBuffer::create_command_buffers(const Pipeline& pipeline) {
         Logger::log("THIS IS A TEST COMMAND BUFFER", Error);
         auto frame_buffers = swapchain->get_framebuffers();
 
@@ -90,7 +98,7 @@ namespace mt::gfx::mtvk {
 
             //This will need a scenegraph as an input
             command_buffers[i].beginRenderPass(render_pass_info, vk::SubpassContents::eInline);
-            command_buffers[i].bindPipeline(vk::PipelineBindPoint::eGraphics, pipeline.get_pipeline());
+            command_buffers[i].bindPipeline(pipeline.get_bind_point(), pipeline.get_pipeline());
             command_buffers[i].draw(3, 1, 0, 0);
             command_buffers[i].endRenderPass();
             command_buffers[i].end();
@@ -98,24 +106,32 @@ namespace mt::gfx::mtvk {
     }
 
     void CommandBuffer::submit_command_buffers() {
-        uint32_t next_image_idx = device->get_device().acquireNextImageKHR(swapchain->get_swapchain(), UINT64_MAX, image_available_semaphore, nullptr).value;
+        device->get_device().waitForFences(1, &in_flight_fences[current_frame], true, UINT64_MAX);
+
+        uint32_t next_image_idx = device->get_device().acquireNextImageKHR(swapchain->get_swapchain(), UINT64_MAX, image_available_semaphores[current_frame], nullptr).value;
+
+        if(images_in_flight[next_image_idx]){
+            device->get_device().waitForFences(1, &images_in_flight[next_image_idx], true, UINT64_MAX);
+        }
+
+        images_in_flight[next_image_idx] = in_flight_fences[current_frame];
+
+        vk::PipelineStageFlags wait_stages[] = {vk::PipelineStageFlagBits::eColorAttachmentOutput};
+        vk::Semaphore wait_semaphores[] = {image_available_semaphores[current_frame]};
+        vk::Semaphore signal_semaphores[] = {render_finished_semaphores[current_frame]};
 
         vk::SubmitInfo submit_info;
+        submit_info.waitSemaphoreCount      = 1;
+        submit_info.pWaitSemaphores         = wait_semaphores;
+        submit_info.pWaitDstStageMask       = wait_stages;
+        submit_info.commandBufferCount      = 1;
+        submit_info.pCommandBuffers         = &command_buffers[next_image_idx];
+        submit_info.signalSemaphoreCount    = 1;
+        submit_info.pSignalSemaphores       = signal_semaphores;
 
-        vk::Semaphore wait_semaphores[] = {image_available_semaphore};
-        vk::PipelineStageFlags wait_stages[] = {vk::PipelineStageFlagBits::eColorAttachmentOutput};
-        submit_info.waitSemaphoreCount = 1;
-        submit_info.pWaitSemaphores = wait_semaphores;
-        submit_info.pWaitDstStageMask = wait_stages;
-        submit_info.commandBufferCount = 1;
-        submit_info.pCommandBuffers = &command_buffers[next_image_idx];
+        device->get_device().resetFences(1, &in_flight_fences[current_frame]);
 
-        vk::Semaphore signal_semaphores[] = {render_finished_semaphore};
-        submit_info.signalSemaphoreCount = 1;
-        submit_info.pSignalSemaphores = signal_semaphores;
-
-        device->get_graphics_queue().submit(submit_info, nullptr);
-
+        device->get_graphics_queue().submit(submit_info, in_flight_fences[current_frame]);
 
         vk::PresentInfoKHR present_info;
         present_info.waitSemaphoreCount = 1;
@@ -129,5 +145,7 @@ namespace mt::gfx::mtvk {
 
         device->get_present_queue().presentKHR(&present_info);
         device->get_present_queue().waitIdle();
+
+        current_frame = (current_frame + 1) % max_frames_in_flight;
     }
 }
