@@ -15,7 +15,7 @@ namespace mt::gfx {
 	    	debugging = std::make_shared<mtvk::VulkanDebug>(instance);
 	    }
 	    surface = std::make_shared<mtvk::Surface>(instance, *window);
-	    device = std::make_shared<mtvk::Device>(instance, surface);
+	    device = std::make_shared<mtvk::Device>(*instance, surface);
 	    swapchain = std::make_shared<mtvk::Swapchain>(device , *surface, *window);
 	    render_pass = std::make_shared<mtvk::RenderPass>(device, *swapchain);
         auto test_shader = mtvk::Shader("base", device, mtvk::ShaderSourceType::GLSL);

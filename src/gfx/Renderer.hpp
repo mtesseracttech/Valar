@@ -16,7 +16,7 @@
 #include <gfx/vulkan/shaders/Shader.hpp>
 #include <gfx/vulkan/pipelines/GraphicsPipeline.hpp>
 #include <gfx/vulkan/pipelines/RenderPass.hpp>
-#include <gfx/vulkan/display/CommandBuffer.hpp>
+#include <gfx/vulkan/commandbuffer/CommandBuffer.hpp>
 
 
 namespace mt::gfx{

@@ -4,7 +4,6 @@
 
 #include <aux/logging/Logger.hpp>
 #include "ContextWindow.hpp"
-#include "WindowCallbackManager.hpp"
 #include "vulkan/vulkan.hpp"
 #include "GLFW/glfw3.h"
 

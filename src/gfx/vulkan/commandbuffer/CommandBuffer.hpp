@@ -8,7 +8,7 @@
 
 #include <gfx/vulkan/pipelines/RenderPass.hpp>
 #include <gfx/vulkan/pipelines/GraphicsPipeline.hpp>
-#include "Device.hpp"
+#include "gfx/vulkan/display/Device.hpp"
 
 namespace mt::gfx::mtvk {
 
