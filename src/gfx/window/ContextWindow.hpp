@@ -13,7 +13,10 @@
 #include "vulkan/vulkan.hpp"
 
 namespace mt::gfx{
-    class Renderer;
+    namespace mtvk{
+        class VulkanRenderer;
+    }
+
 
 	class ContextWindow : public std::enable_shared_from_this<ContextWindow>  {
 	protected:
@@ -25,7 +28,7 @@ namespace mt::gfx{
 
 		std::string title;
 
-		std::weak_ptr<Renderer> renderer;
+		std::weak_ptr<mtvk::VulkanRenderer> renderer;
 
 	public:
 		ContextWindow(uint32_t width, uint32_t height, const std::string& window_title);
@@ -37,6 +40,8 @@ namespace mt::gfx{
 
 		void process_events();
 
+		void wait_events();
+
         GLFWwindow * get_window() const;
 
 		uint32_t get_width() const;
@@ -47,7 +52,7 @@ namespace mt::gfx{
 		std::string get_title() const;
 		void set_title(const std::string& title);
 
-		void set_renderer(const std::weak_ptr<Renderer>& renderer);
+		void set_renderer(const std::weak_ptr<mtvk::VulkanRenderer>& renderer);
 	};
 }
 

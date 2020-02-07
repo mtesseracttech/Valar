@@ -8,16 +8,8 @@
 #include "Shader.hpp"
 
 namespace mt::gfx::mtvk {
-    Shader::Shader(const std::string &module_name,
-                   const std::shared_ptr<Device> &device, ShaderSourceType module_type) : shader_name(module_name), device(device) {
-        switch (module_type){
-            case Spirv:
-                process_spirv_module(module_name);
-                break;
-            case GLSL:
-                process_glsl_module(module_name);
-                break;
-        }
+    Shader::Shader(const std::shared_ptr<Device> &device, const std::string &module_name, ShaderSourceType module_type) : device(device), shader_name(module_name), module_type(module_type) {
+
     }
 
     void Shader::process_glsl_module(const std::string &module_name) {
@@ -45,15 +37,6 @@ namespace mt::gfx::mtvk {
     void Shader::process_spirv_module(const std::string &module_name) {
         auto sources = find_sources(spirv_type_ext_pairs, module_name);
         throw aux::NotImplemented("This is yet to be implemented, but should be the easier");
-    }
-
-    Shader::~Shader() {
-        for(const auto& shader_module : shader_modules){
-            if(shader_module.second){
-                device->get_device().destroyShaderModule(shader_module.second);
-            }
-        }
-        shader_modules.clear();
     }
 
     std::vector<Shader::ShaderSourceData> Shader::find_sources(const std::vector<TypeExtPair> &type_ext_pairs,
@@ -121,5 +104,25 @@ namespace mt::gfx::mtvk {
             shader_stages.push_back(create_info);
         }
         return shader_stages;
+    }
+
+    void Shader::destroy() {
+        for(const auto& shader_module : shader_modules){
+            if(shader_module.second){
+                device->get_device().destroyShaderModule(shader_module.second);
+            }
+        }
+        shader_modules.clear();
+    }
+
+    void Shader::create() {
+        switch (module_type){
+            case Spirv:
+                process_spirv_module(shader_name);
+                break;
+            case GLSL:
+                process_glsl_module(shader_name);
+                break;
+        }
     }
 }

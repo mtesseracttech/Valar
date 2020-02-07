@@ -19,8 +19,6 @@ namespace mt::gfx::mtvk {
         std::vector<vk::CommandBuffer> command_buffers;
 
         std::shared_ptr<Device> device;
-        std::shared_ptr<Swapchain> swapchain;
-        std::shared_ptr<RenderPass> render_pass;
 
         std::vector<vk::Semaphore> image_available_semaphores;
         std::vector<vk::Semaphore> render_finished_semaphores;
@@ -33,23 +31,26 @@ namespace mt::gfx::mtvk {
         std::size_t current_frame = 0;
     public:
         explicit CommandBuffer(const std::shared_ptr<Device>& device,
-                               const std::shared_ptr<Swapchain>& swapchain,
-                               const std::shared_ptr<RenderPass>& render_pass,
                                uint32_t max_frames_in_flight);
 
         ~CommandBuffer() = default;
 
+        void create_command_pool();
+
+        void allocate_command_buffers(const Swapchain& swapchain);
+
+        void create_sync_objects(const Swapchain& swapchain);
+
+        void create_command_buffers(const Pipeline& pipeline, const Swapchain& swapchain, const RenderPass& render_pass);
+
         void destroy();
 
-        void create_command_buffers(const Pipeline &pipeline);
+        bool submit_command_buffers(const Swapchain& swapchain);
 
-        void submit_command_buffers();
+        void free_buffers();
 
     protected:
 
-        void allocate_command_buffers();
-
-        void create_sync_objects();
     };
 }
 

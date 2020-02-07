@@ -8,14 +8,12 @@
 #include <array>
 
 namespace mt::gfx::mtvk {
-    CommandBuffer::CommandBuffer(const std::shared_ptr<Device> &device,
-            const std::shared_ptr<Swapchain>& swapchain,
-            const std::shared_ptr<RenderPass>& render_pass, uint32_t max_frames_in_flight) :
+    CommandBuffer::CommandBuffer(const std::shared_ptr<Device> &device, uint32_t max_frames_in_flight) :
                 device(device),
-                swapchain(swapchain),
-                render_pass(render_pass),
                 max_frames_in_flight(max_frames_in_flight) {
+    }
 
+    void CommandBuffer::create_command_pool() {
         auto indices = device->get_queue_indices();
 
         vk::CommandPoolCreateInfo pool_create_info;
@@ -24,16 +22,10 @@ namespace mt::gfx::mtvk {
 
         command_pool = device->get_device().createCommandPool(pool_create_info);
         Logger::log("Created Command Pool", Info);
-
-        allocate_command_buffers();
-
-        create_sync_objects();
     }
 
-    void CommandBuffer::allocate_command_buffers() {
-        auto swapchain_framebuffers = swapchain->get_framebuffers();
-
-        command_buffers.resize(swapchain_framebuffers.size());
+    void CommandBuffer::allocate_command_buffers(const Swapchain& swapchain) {
+        command_buffers.resize(swapchain.get_framebuffers().size());
 
         vk::CommandBufferAllocateInfo command_buffer_allocate_info;
         command_buffer_allocate_info.commandPool = command_pool;
@@ -44,23 +36,11 @@ namespace mt::gfx::mtvk {
         Logger::log("Allocated " + std::to_string(command_buffers.size()) + " Command Buffers", Info);
     }
 
-
-    void CommandBuffer::destroy() {
-        auto device = this->device->get_device();
-        for(std::size_t i = 0; i < max_frames_in_flight; ++i){
-            device.destroy(image_available_semaphores[i]);
-            device.destroy(render_finished_semaphores[i]);
-            device.destroy(in_flight_fences[i]);
-        }
-        device.destroyCommandPool(command_pool);
-        Logger::log("Destroyed Command Pool", Info);
-    }
-
-    void CommandBuffer::create_sync_objects() {
+    void CommandBuffer::create_sync_objects(const Swapchain& swapchain) {
         image_available_semaphores.resize(max_frames_in_flight);
         render_finished_semaphores.resize(max_frames_in_flight);
         in_flight_fences.resize(max_frames_in_flight);
-        images_in_flight.resize(swapchain->get_images().size(), nullptr);
+        images_in_flight.resize(swapchain.get_images().size(), nullptr);
 
         vk::SemaphoreCreateInfo semaphore_info;
         vk::FenceCreateInfo fence_info;
@@ -74,9 +54,22 @@ namespace mt::gfx::mtvk {
         Logger::log("Created Semaphores", Info);
     }
 
-    void CommandBuffer::create_command_buffers(const Pipeline& pipeline) {
+
+
+    void CommandBuffer::destroy() {
+        auto device = this->device->get_device();
+        for(std::size_t i = 0; i < max_frames_in_flight; ++i){
+            device.destroy(image_available_semaphores[i]);
+            device.destroy(render_finished_semaphores[i]);
+            device.destroy(in_flight_fences[i]);
+        }
+        device.destroyCommandPool(command_pool);
+        Logger::log("Destroyed Command Pool", Info);
+    }
+
+    void CommandBuffer::create_command_buffers(const Pipeline& pipeline, const Swapchain& swapchain, const RenderPass& render_pass) {
         Logger::log("THIS IS A TEST COMMAND BUFFER", Error);
-        auto frame_buffers = swapchain->get_framebuffers();
+        auto frame_buffers = swapchain.get_framebuffers();
 
         for (std::size_t i = 0; i < command_buffers.size(); ++i) {
             vk::CommandBufferBeginInfo begin_info;
@@ -86,11 +79,11 @@ namespace mt::gfx::mtvk {
             command_buffers[i].begin(begin_info);
 
             vk::RenderPassBeginInfo render_pass_info;
-            render_pass_info.renderPass = render_pass->get_render_pass();
+            render_pass_info.renderPass = render_pass.get_render_pass();
             render_pass_info.framebuffer = frame_buffers[i];
 
             render_pass_info.renderArea.offset = vk::Offset2D(0, 0);
-            render_pass_info.renderArea.extent = swapchain->get_extent();
+            render_pass_info.renderArea.extent = swapchain.get_extent();
 
             vk::ClearValue clear_color = vk::ClearColorValue(std::array<float, 4>{0.0, 0.0, 0.0, 1.0});
             render_pass_info.clearValueCount = 1;
@@ -105,16 +98,20 @@ namespace mt::gfx::mtvk {
         }
     }
 
-    void CommandBuffer::submit_command_buffers() {
+    bool CommandBuffer::submit_command_buffers(const Swapchain& swapchain) {
         device->get_device().waitForFences(1, &in_flight_fences[current_frame], true, UINT64_MAX);
 
-        uint32_t next_image_idx = device->get_device().acquireNextImageKHR(swapchain->get_swapchain(), UINT64_MAX, image_available_semaphores[current_frame], nullptr).value;
+        auto next_image = device->get_device().acquireNextImageKHR(swapchain.get_swapchain(), UINT64_MAX, image_available_semaphores[current_frame], nullptr);
 
-        if(images_in_flight[next_image_idx]){
-            device->get_device().waitForFences(1, &images_in_flight[next_image_idx], true, UINT64_MAX);
+        if(next_image.result == vk::Result::eErrorOutOfDateKHR){
+            return false;
         }
 
-        images_in_flight[next_image_idx] = in_flight_fences[current_frame];
+        if(images_in_flight[next_image.value]){
+            device->get_device().waitForFences(1, &images_in_flight[next_image.value], true, UINT64_MAX);
+        }
+
+        images_in_flight[next_image.value] = in_flight_fences[current_frame];
 
         vk::PipelineStageFlags wait_stages[] = {vk::PipelineStageFlagBits::eColorAttachmentOutput};
         vk::Semaphore wait_semaphores[] = {image_available_semaphores[current_frame]};
@@ -125,7 +122,7 @@ namespace mt::gfx::mtvk {
         submit_info.pWaitSemaphores         = wait_semaphores;
         submit_info.pWaitDstStageMask       = wait_stages;
         submit_info.commandBufferCount      = 1;
-        submit_info.pCommandBuffers         = &command_buffers[next_image_idx];
+        submit_info.pCommandBuffers         = &command_buffers[next_image.value];
         submit_info.signalSemaphoreCount    = 1;
         submit_info.pSignalSemaphores       = signal_semaphores;
 
@@ -137,15 +134,20 @@ namespace mt::gfx::mtvk {
         present_info.waitSemaphoreCount = 1;
         present_info.pWaitSemaphores = signal_semaphores;
 
-        vk::SwapchainKHR swapchains[] = {swapchain->get_swapchain()};
+        vk::SwapchainKHR swapchains[] = {swapchain.get_swapchain()};
         present_info.swapchainCount = 1;
         present_info.pSwapchains = swapchains;
-        present_info.pImageIndices = &next_image_idx;
+        present_info.pImageIndices = &next_image.value;
         present_info.pResults = nullptr;
 
         device->get_present_queue().presentKHR(&present_info);
         device->get_present_queue().waitIdle();
 
         current_frame = (current_frame + 1) % max_frames_in_flight;
+        return true;
+    }
+
+    void CommandBuffer::free_buffers() {
+        device->get_device().freeCommandBuffers(command_pool,command_buffers);
     }
 }

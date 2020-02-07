@@ -6,7 +6,7 @@
 #include "ContextWindow.hpp"
 #include "vulkan/vulkan.hpp"
 #include "GLFW/glfw3.h"
-#include <gfx/Renderer.hpp>
+#include <gfx/vulkan/VulkanRenderer.hpp>
 
 namespace mt::gfx{
 
@@ -85,7 +85,7 @@ namespace mt::gfx{
         return title;
     }
 
-    void ContextWindow::set_renderer(const std::weak_ptr<Renderer>& renderer) {
+    void ContextWindow::set_renderer(const std::weak_ptr<mtvk::VulkanRenderer>& renderer) {
 	    this->renderer = renderer;
     }
 
@@ -93,6 +93,12 @@ namespace mt::gfx{
 	    this->title = title;
 	    if(window){
             glfwSetWindowTitle(window, title.c_str());
+        }
+    }
+
+    void ContextWindow::wait_events() {
+        if(window){
+            glfwWaitEvents();
         }
     }
 

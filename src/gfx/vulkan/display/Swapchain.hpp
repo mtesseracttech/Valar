@@ -163,10 +163,12 @@ namespace mt::gfx::mtvk {
             if(capabilities.currentExtent.width != UINT32_MAX){
                 return capabilities.currentExtent;
             } else{
-                return vk::Extent2D {
-                        std::max(capabilities.minImageExtent.width, std::min(capabilities.maxImageExtent.width, window.get_width())),
-                        std::max(capabilities.minImageExtent.height, std::min(capabilities.maxImageExtent.height, window.get_height()))
-                };
+                vk::Extent2D actual_extent = window.get_extent();
+
+                actual_extent.width = std::max(capabilities.minImageExtent.width, std::min(capabilities.maxImageExtent.width, actual_extent.width));
+                actual_extent.height = std::max(capabilities.minImageExtent.height, std::min(capabilities.maxImageExtent.height, actual_extent.height));
+
+                return actual_extent;
             }
         }
 

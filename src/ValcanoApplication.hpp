@@ -6,7 +6,7 @@
 #define VALCANO_VALCANOAPPLICATION_HPP
 
 #include <iostream>
-#include <gfx/Renderer.hpp>
+#include <gfx/vulkan/VulkanRenderer.hpp>
 #include <aux/logging/Logger.hpp>
 #include <gfx/window/WindowManager.hpp>
 #include "gfx/window/ContextWindow.hpp"
