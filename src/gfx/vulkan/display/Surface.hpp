@@ -15,12 +15,14 @@ namespace mt::gfx::mtvk {
         vk::SurfaceKHR surface;
         std::shared_ptr<Instance> instance;
     public:
-        Surface(const std::shared_ptr<Instance>& instance, const ContextWindow& window) : instance(instance){
+        explicit Surface(const std::shared_ptr<Instance>& instance) : instance(instance){}
+
+        ~Surface() = default;
+
+        void create(const ContextWindow& window){
             surface = GlfwHelper::get_glfw_surface(instance->get_instance(), window.get_window());
             Logger::log("Created the Window Surface", Info);
         }
-
-        ~Surface() = default;
 
         void destroy() {
             instance->get_instance().destroySurfaceKHR(surface);

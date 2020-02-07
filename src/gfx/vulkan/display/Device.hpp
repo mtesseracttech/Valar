@@ -43,7 +43,11 @@ namespace mt::gfx::mtvk {
 		vk::Queue present_queue;
 
     public:
-        Device(const Instance &instance, const std::shared_ptr<Surface>& surface) : surface(surface){
+        Device(const std::shared_ptr<Surface>& surface) : surface(surface){}
+
+        ~Device() = default;
+
+        void create(const Instance &instance){
             auto best_physical_device = select_best_physical_device(instance.get_instance().enumeratePhysicalDevices(), surface->get_surface());
             auto logical_device = create_logical_device(best_physical_device, instance, surface->get_surface());
 
@@ -60,8 +64,6 @@ namespace mt::gfx::mtvk {
 
             Logger::log("Set up Graphics and Present Queues", Info);
         }
-
-        ~Device() = default;
 
         //Call this to destroy the vulkan device, at the very end of all vulkan activity
         void destroy(){
@@ -240,8 +242,6 @@ namespace mt::gfx::mtvk {
 
             return required_extensions.empty();
         }
-
-
     };
 }
 

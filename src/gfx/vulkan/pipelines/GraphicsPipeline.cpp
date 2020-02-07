@@ -7,9 +7,10 @@
 
 namespace mt::gfx::mtvk {
     GraphicsPipeline::GraphicsPipeline(const std::shared_ptr<Device>& device,
-                                       const Shader& shader,
-                                       const RenderPass& render_pass,
-                                       const Swapchain& swapchain) : Pipeline(device, shader) {
+                                       const std::shared_ptr<Shader>& shader) : Pipeline(device, shader) {
+    }
+
+    void GraphicsPipeline::create(const RenderPass &render_pass, const Swapchain &swapchain) {
         auto swapchain_extent = swapchain.get_extent();
 
         bind_point = vk::PipelineBindPoint::eGraphics;
@@ -86,15 +87,6 @@ namespace mt::gfx::mtvk {
         color_blend_create_info.blendConstants[2]    = 0.0f;
         color_blend_create_info.blendConstants[3]    = 0.0f;
 
-//        std::array<vk::DynamicState, 2> dynamic_states = {
-//                vk::DynamicState ::eViewport,
-//                vk::DynamicState ::eLineWidth
-//        };
-//
-//        vk::PipelineDynamicStateCreateInfo dynamic_state_create_info;
-//        dynamic_state_create_info.dynamicStateCount    = 2;
-//        dynamic_state_create_info.pDynamicStates       = dynamic_states.data();
-
         vk::PipelineLayoutCreateInfo pipeline_layout_create_info;
         pipeline_layout_create_info.setLayoutCount            = 0;
         pipeline_layout_create_info.pSetLayouts               = nullptr;
@@ -103,7 +95,7 @@ namespace mt::gfx::mtvk {
 
         pipeline_layout = device->get_device().createPipelineLayout(pipeline_layout_create_info);
 
-        auto shader_stages = shader.create_shader_stage_create_infos();
+        auto shader_stages = shader->create_shader_stage_create_infos();
 
         vk::GraphicsPipelineCreateInfo pipeline_create_info;
         pipeline_create_info.stageCount = shader_stages.size();

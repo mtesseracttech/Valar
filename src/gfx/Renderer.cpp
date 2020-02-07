@@ -14,13 +14,25 @@ namespace mt::gfx {
 	    if(instance->has_validation_layers()){
 	    	debugging = std::make_shared<mtvk::VulkanDebug>(instance);
 	    }
-	    surface = std::make_shared<mtvk::Surface>(instance, *window);
-	    device = std::make_shared<mtvk::Device>(*instance, surface);
-	    swapchain = std::make_shared<mtvk::Swapchain>(device , *surface, *window);
-	    render_pass = std::make_shared<mtvk::RenderPass>(device, *swapchain);
-        auto test_shader = mtvk::Shader("base", device, mtvk::ShaderSourceType::GLSL);
-        test_shader_pipeline = std::make_shared<mtvk::GraphicsPipeline>(device, test_shader, *render_pass, *swapchain);
-	    swapchain->create_framebuffers(*render_pass);
+
+	    surface = std::make_shared<mtvk::Surface>(instance);
+	    surface->create(*window);
+
+	    device = std::make_shared<mtvk::Device>(surface);
+	    device->create(*instance);
+
+	    swapchain = std::make_shared<mtvk::Swapchain>(device);
+        swapchain->create(*surface, *window);
+
+        render_pass = std::make_shared<mtvk::RenderPass>(device);
+        render_pass->create(*swapchain);
+
+        swapchain->create_framebuffers(*render_pass);
+
+        test_shader = std::make_shared<mtvk::Shader>("base", device, mtvk::ShaderSourceType::GLSL);
+        test_shader_pipeline = std::make_shared<mtvk::GraphicsPipeline>(device, test_shader);
+        test_shader_pipeline->create(*render_pass, *swapchain);
+
 	    command_buffer = std::make_shared<mtvk::CommandBuffer>(device, swapchain, render_pass, max_frames_in_flight);
 	    command_buffer->create_command_buffers(*test_shader_pipeline);
 	}
@@ -50,15 +62,15 @@ namespace mt::gfx {
         Logger::log("Framebuffer Resized to: " + std::to_string(new_width) + "x" + std::to_string(new_height));
     }
 
+    void Renderer::recreate_swapchain() {
+	    device->wait_till_idle();
+    }
+
     void Renderer::cleanup_swapchain() {
         swapchain->destroy_framebuffers();
         //Free command buffers
         test_shader_pipeline->destroy();
         render_pass->destroy();
         swapchain->destroy();
-    }
-
-    void Renderer::recreate_swapchain() {
-	    device->wait_till_idle();
     }
 }

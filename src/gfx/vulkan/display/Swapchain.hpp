@@ -26,7 +26,12 @@ namespace mt::gfx::mtvk {
         std::vector<vk::Framebuffer> framebuffers;
 
     public:
-        Swapchain(const std::shared_ptr<Device>& device, const Surface& surface, const ContextWindow& window) : device(device) {
+        explicit Swapchain(const std::shared_ptr<Device>& device) : device(device) {}
+
+        ~Swapchain() = default;
+
+        void create(const Surface& surface, const ContextWindow& window){
+            assert(device);
             auto physical_device = device->get_physical_device();
 
             auto surface_formats = physical_device.getSurfaceFormatsKHR(surface.get_surface());
@@ -83,8 +88,6 @@ namespace mt::gfx::mtvk {
 
             create_image_views();
         }
-
-        ~Swapchain() = default;
 
         void destroy(){
             destroy_image_views();

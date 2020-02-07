@@ -31,6 +31,7 @@ namespace mt::gfx{
         std::shared_ptr<mtvk::CommandBuffer> command_buffer;
         //Pipelines should be managed by a resource cache (with a pipeline cache)
         std::shared_ptr<mtvk::GraphicsPipeline> test_shader_pipeline;
+        std::shared_ptr<mtvk::Shader> test_shader;
 
         uint32_t max_frames_in_flight;
     public:

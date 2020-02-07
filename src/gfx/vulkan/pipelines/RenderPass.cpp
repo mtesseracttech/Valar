@@ -7,7 +7,9 @@
 
 namespace mt::gfx::mtvk {
 
-    RenderPass::RenderPass(const std::shared_ptr<Device>& device, const Swapchain& swapchain) : device(device) {
+    RenderPass::RenderPass(const std::shared_ptr<Device>& device) : device(device) {}
+
+    void RenderPass::create(const Swapchain &swapchain) {
         vk::AttachmentDescription color_attachment;
         color_attachment.format            = swapchain.get_format();
         color_attachment.samples           = vk::SampleCountFlagBits::e1;

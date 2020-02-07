@@ -17,8 +17,10 @@ namespace mt::gfx::mtvk {
         vk::RenderPass render_pass;
 
     public:
-        RenderPass(const std::shared_ptr<Device>& device, const Swapchain& swapchain);
+         explicit RenderPass(const std::shared_ptr<Device>& device);
         ~RenderPass() = default;
+
+        void create(const Swapchain& swapchain);
 
         void destroy();
 
