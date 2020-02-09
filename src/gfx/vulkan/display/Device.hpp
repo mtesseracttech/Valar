@@ -110,7 +110,8 @@ namespace mt::gfx::mtvk {
 
             for (const auto & device : physical_devices) {
                 if (is_physical_device_suitable(device, surface)) {
-                    ranked_devices.push(std::make_pair(rate_physical_device(device), device));
+                    //ranked_devices.push(std::make_pair(rate_physical_device(device), device));
+                    ranked_devices.emplace(rate_physical_device(device), device);
                 }
             }
 

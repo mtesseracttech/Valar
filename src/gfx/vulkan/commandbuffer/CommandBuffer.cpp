@@ -68,12 +68,11 @@ namespace mt::gfx::mtvk {
     }
 
     void CommandBuffer::create_command_buffers(const Pipeline& pipeline, const Swapchain& swapchain, const RenderPass& render_pass) {
-        Logger::log("THIS IS A TEST COMMAND BUFFER", Error);
         auto frame_buffers = swapchain.get_framebuffers();
 
         for (std::size_t i = 0; i < command_buffers.size(); ++i) {
             vk::CommandBufferBeginInfo begin_info;
-            begin_info.flags = {};
+            begin_info.flags = vk::CommandBufferUsageFlags();
             begin_info.pInheritanceInfo = nullptr;
 
             command_buffers[i].begin(begin_info);

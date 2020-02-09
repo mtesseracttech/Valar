@@ -12,6 +12,7 @@ namespace mt{
     class GlfwHelper {
     public:
         static vk::SurfaceKHR get_glfw_surface(const vk::Instance& instance, GLFWwindow * window);
+        static std::vector<const char *> get_glfw_instance_extensions();
     };
 }
 

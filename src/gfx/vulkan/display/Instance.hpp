@@ -7,7 +7,7 @@
 
 #include "vulkan/vulkan.hpp"
 #include <aux/logging/Logger.hpp>
-#include <GLFW/glfw3.h>
+#include <util/GlfwHelper.hpp>
 
 namespace mt::gfx::mtvk{
 	class Instance {
@@ -52,10 +52,7 @@ namespace mt::gfx::mtvk{
 		}
 
 		std::vector<const char*> get_required_extensions(){
-            uint32_t glfw_ext_count = 0;
-            auto glfw_extensions = glfwGetRequiredInstanceExtensions(&glfw_ext_count);
-
-            std::vector<const char*> extensions(glfw_extensions, glfw_extensions + glfw_ext_count);
+			auto extensions = GlfwHelper::get_glfw_instance_extensions();
 
             if (enable_validation_layers) {
                 extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);

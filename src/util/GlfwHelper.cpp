@@ -13,4 +13,10 @@ namespace mt{
         }
         return surface;
     }
+
+	std::vector<const char *> GlfwHelper::get_glfw_instance_extensions() {
+		uint32_t glfw_ext_count = 0;
+		auto glfw_extensions = glfwGetRequiredInstanceExtensions(&glfw_ext_count);
+		return std::vector<const char*> (glfw_extensions, glfw_extensions + glfw_ext_count);
+    }
 }

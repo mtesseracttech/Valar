@@ -15,9 +15,8 @@ namespace mt {
         window_manager = std::make_shared<gfx::WindowManager>();
         main_window = std::make_shared<gfx::ContextWindow>(win_width, win_height, app_name);
         window_manager->set_main_window(main_window);
-        auto vk_renderer = std::make_shared<gfx::mtvk::VulkanRenderer>(main_window);
-        renderer = vk_renderer;
-        main_window->set_renderer(vk_renderer);
+        renderer = std::make_shared<gfx::mtvk::VulkanRenderer>(main_window);
+        main_window->set_renderer(std::static_pointer_cast<gfx::mtvk::VulkanRenderer>(renderer));
 	}
 
 	void ValcanoApplication::run() {
