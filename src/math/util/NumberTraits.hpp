@@ -2,8 +2,8 @@
 // Created by mtesseract on 6/9/19.
 //
 
-#ifndef MACH_NUMBERTRAITS_HPP
-#define MACH_NUMBERTRAITS_HPP
+#ifndef VALCANO_NUMBERTRAITS_HPP
+#define VALCANO_NUMBERTRAITS_HPP
 
 #include <cmath>
 #include <limits>
@@ -57,4 +57,4 @@ namespace mach {
 	}
 }
 
-#endif //MACH_NUMBERTRAITS_HPP
+#endif //VALCANO_NUMBERTRAITS_HPP

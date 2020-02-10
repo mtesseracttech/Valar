@@ -2,12 +2,12 @@
 // Created by mtesseract on 6/17/19.
 //
 
-#ifndef MACH_MATHUTILS_HPP
-#define MACH_MATHUTILS_HPP
+#ifndef VALCANO_MATHUTILS_HPP
+#define VALCANO_MATHUTILS_HPP
 
 #include <math/linalg/LinAlgTypes.hpp>
 
-namespace mach::math {
+namespace mt::math {
 	constexpr double e = 2.71828182845904523536;
 	constexpr double pi = 3.14159265358979323846;
 	constexpr double deg_to_rad = pi / 180.0;
@@ -34,4 +34,4 @@ namespace mach::math {
 	}
 }
 
-#endif //MACH_MATHUTILS_HPP
+#endif //VALCANO_MATHUTILS_HPP

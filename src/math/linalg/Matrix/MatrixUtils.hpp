@@ -2,15 +2,15 @@
 // Created by mtesseract on 7/5/19.
 //
 
-#ifndef MACH_MATRIXUTILS_HPP
-#define MACH_MATRIXUTILS_HPP
+#ifndef VALCANO_MATRIXUTILS_HPP
+#define VALCANO_MATRIXUTILS_HPP
 
 #include <math/linalg/LinAlgTypes.hpp>
 #include <math/util/MathUtils.hpp>
 #include "RotationMatrix.hpp"
 #include "ScaleMatrix.hpp"
 
-namespace mach::math {
+namespace mt::math {
 
 	template<typename T>
 	Matrix4<T> translate(const Vector3<T> &p_trans) {
@@ -26,9 +26,9 @@ namespace mach::math {
 	     const Vector3<T> &p_right,
 	     const Vector3<T> &p_up,
 	     const Vector3<T> &p_direction) {
-		mach_assert(p_right.is_unit(), "Right vector needs to be unit");
-		mach_assert(p_up.is_unit(), "Up vector needs to be unit");
-		mach_assert(p_direction.is_unit(), "Direction vector needs to be unit");
+		VALCANO_assert(p_right.is_unit(), "Right vector needs to be unit");
+		VALCANO_assert(p_up.is_unit(), "Up vector needs to be unit");
+		VALCANO_assert(p_direction.is_unit(), "Direction vector needs to be unit");
 
 		Vector3<T> pos(-p_position.dot(p_right),
 		               -p_position.dot(p_up),
@@ -122,8 +122,8 @@ namespace mach::math {
 
 	template<typename T>
 	Matrix4<T> perspective(const T &p_z_near, const T &p_z_far, const T &p_fov_y, const T &p_aspect_ratio) {
-		mach_assert(p_z_near > 0.0, "Near clipping distance must be positive");
-		mach_assert(p_z_far > p_z_near, "Far clipping distance must further than the near clipping distance");
+		VALCANO_assert(p_z_near > 0.0, "Near clipping distance must be positive");
+		VALCANO_assert(p_z_far > p_z_near, "Far clipping distance must further than the near clipping distance");
 		T f = 1.0 / std::tan(p_fov_y / 2.0); //cot(fovy/2)
 		Matrix4<T> m = Matrix4<T>::zero();
 		m[0][0] = f / p_aspect_ratio;
@@ -137,8 +137,8 @@ namespace mach::math {
 
 	template<typename T>
 	Matrix4<T> orthographic(T near, T far, T left, T right, T bottom, T top) {
-		mach_assert(near > 0.0, "Near clipping distance must be positive");
-		mach_assert(far > near, "Far clipping distance must further than the near clipping distance");
+		VALCANO_assert(near > 0.0, "Near clipping distance must be positive");
+		VALCANO_assert(far > near, "Far clipping distance must further than the near clipping distance");
 		Matrix4<T> m = Matrix4<T>::zero();
 		m[0][0] = 2.0 / (right - left);
 		m[1][1] = 2.0 / (top - bottom);
@@ -151,4 +151,4 @@ namespace mach::math {
 	}
 }
 
-#endif //MACH_MATRIXUTILS_HPP
+#endif //VALCANO_MATRIXUTILS_HPP

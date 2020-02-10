@@ -2,17 +2,16 @@
 // Created by mtesseract on 7/5/19.
 //
 
-#ifndef MACH_TRANSFORMCOMPOUND_HPP
-#define MACH_TRANSFORMCOMPOUND_HPP
+#ifndef VALCANO_TRANSFORMCOMPOUND_HPP
+#define VALCANO_TRANSFORMCOMPOUND_HPP
 
 #include <math/linalg/LinAlgTypes.hpp>
 #include <math/linalg/Matrix/RotationMatrix.hpp>
 #include <math/linalg/Matrix/ScaleMatrix.hpp>
 #include <math/linalg/Matrix/MatrixUtils.hpp>
-#include <auxiliary/Properties.hpp>
-#include <auxiliary/Memory.hpp>
+#include <aux/memory/PointerUtils.hpp>
 
-namespace mach {
+namespace mt {
 	enum CoordinateSpace {
 		World,
 		Local
@@ -265,9 +264,6 @@ namespace mach {
 			return !m_parent.expired();
 		}
 	};
-
-	typedef TransformCompound<float> Transform;
-	typedef TransformCompound<double> TransformD;
 }
 
-#endif //MACH_TRANSFORMCOMPOUND_HPP
+#endif //VALCANO_TRANSFORMCOMPOUND_HPP

@@ -2,8 +2,8 @@
 // Created by mtesseract on 27-5-19.
 //
 
-#ifndef MACH_LOGGER_HPP
-#define MACH_LOGGER_HPP
+#ifndef VALCANO_LOGGER_HPP
+#define VALCANO_LOGGER_HPP
 
 
 #include <ostream>
@@ -57,4 +57,4 @@ namespace mt {
 }
 
 
-#endif //MACH_LOGGER_HPP
+#endif //VALCANO_LOGGER_HPP

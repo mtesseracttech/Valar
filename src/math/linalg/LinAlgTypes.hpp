@@ -2,14 +2,15 @@
 // Created by mtesseract on 6/4/19.
 //
 
-#ifndef MACH_LINALGTYPES_HPP
-#define MACH_LINALGTYPES_HPP
+#ifndef VALCANO_LINALGTYPES_HPP
+#define VALCANO_LINALGTYPES_HPP
 
 
-#include "math/linalg/Matrix/Matrix.hpp"
+#include "Matrix/Matrix.hpp"
 #include "Quaternion.hpp"
+#include "TransformCompound.hpp"
 
-namespace mach {
+namespace mt {
 	//Common Vector Templates
 	template<typename T>
 	using Vector2 = Vector<T, 2>;
@@ -26,9 +27,9 @@ namespace mach {
 	typedef Vector4<float> Vec4;
 
 	//High Precision
-	typedef Vector2<double> Vec2h;
-	typedef Vector3<double> Vec3h;
-	typedef Vector4<double> Vec4h;
+	typedef Vector2<double> Vec2d;
+	typedef Vector3<double> Vec3d;
+	typedef Vector4<double> Vec4d;
 
 	//Signed Integer Precision
 	typedef Vector2<int> IVec2;
@@ -56,9 +57,9 @@ namespace mach {
 	typedef Matrix4<float> Mat4;
 
 	//High Precision, short form
-	typedef Matrix2<double> Mat2h;
-	typedef Matrix3<double> Mat3h;
-	typedef Matrix4<double> Mat4h;
+	typedef Matrix2<double> Mat2d;
+	typedef Matrix3<double> Mat3d;
+	typedef Matrix4<double> Mat4d;
 
 
 	//Common Matrix Templates
@@ -102,19 +103,23 @@ namespace mach {
 	typedef Matrix4x4<float> Mat4x4;
 
 	//High Precision, full form
-	typedef Matrix2x2<double> Mat2x2h;
-	typedef Matrix2x3<double> Mat2x3h;
-	typedef Matrix2x4<double> Mat2x4h;
-	typedef Matrix3x2<double> Mat3x2h;
-	typedef Matrix3x3<double> Mat3x3h;
-	typedef Matrix3x4<double> Mat3x4h;
-	typedef Matrix4x2<double> Mat4x2h;
-	typedef Matrix4x3<double> Mat4x3h;
-	typedef Matrix4x4<double> Mat4x4h;
+	typedef Matrix2x2<double> Mat2x2d;
+	typedef Matrix2x3<double> Mat2x3d;
+	typedef Matrix2x4<double> Mat2x4d;
+	typedef Matrix3x2<double> Mat3x2d;
+	typedef Matrix3x3<double> Mat3x3d;
+	typedef Matrix3x4<double> Mat3x4d;
+	typedef Matrix4x2<double> Mat4x2d;
+	typedef Matrix4x3<double> Mat4x3d;
+	typedef Matrix4x4<double> Mat4x4d;
 
 	//Quaternions
 	typedef Quaternion<float> Quat;
-	typedef Quaternion<double> Quath;
+	typedef Quaternion<double> Quatd;
+
+	//Transform Compounds
+	typedef TransformCompound<float> Transform;
+	typedef TransformCompound<double> Transformd;
 }
 
-#endif //MACH_LINALGTYPES_HPP
+#endif //VALCANO_LINALGTYPES_HPP

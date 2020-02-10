@@ -2,8 +2,8 @@
 // Created by mtesseract on 6/11/19.
 //
 
-#ifndef MACH_NOTIMPLEMENTED_HPP
-#define MACH_NOTIMPLEMENTED_HPP
+#ifndef VALCANO_NOTIMPLEMENTED_HPP
+#define VALCANO_NOTIMPLEMENTED_HPP
 
 #include <string>
 #include <stdexcept>
@@ -29,4 +29,4 @@ namespace mt::aux {
 	};
 }
 
-#endif //MACH_NOTIMPLEMENTED_HPP
+#endif //VALCANO_NOTIMPLEMENTED_HPP

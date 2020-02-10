@@ -2,8 +2,8 @@
 // Created by mtesseract on 28-5-19.
 //
 
-#ifndef MACH_VECTOR_HPP
-#define MACH_VECTOR_HPP
+#ifndef VALCANO_VECTOR_HPP
+#define VALCANO_VECTOR_HPP
 
 #include <array>
 #include <cmath>
@@ -12,15 +12,10 @@
 #include <iomanip>
 #include <algorithm>
 #include <functional>
-#include "math/util/NumberTraits.hpp"
-#include "auxiliary/MachAssertion.hpp"
-#include "auxiliary/Properties.hpp"
+#include <math/util/NumberTraits.hpp>
+#include <aux/MachAssertion.hpp>
 
-/*
- * Thanks to Gaztin from the Cherno discord, for helping me with the functor things.
- */
-
-namespace mach {
+namespace mt {
 	template<typename T, std::size_t N>
 	class Vector {
 		std::array<T, N> m_data;
@@ -330,12 +325,12 @@ namespace mach {
 		}
 
 		static inline Vector reflect(const Vector &p_incident, const Vector &p_normal) {
-			mach_assert(p_normal.is_unit(), "The reflect function only works with normalized normal vectors");
+			VALCANO_assert(p_normal.is_unit(), "The reflect function only works with normalized normal vectors");
 			return p_incident - static_cast<T>(2.0) * dot(p_incident, p_normal) * p_normal;
 		}
 
 		static inline Vector refract(const Vector &p_incident, const Vector &p_normal, const T p_eta) {
-			mach_assert(p_normal.is_unit(), "The refraction function only works with normalized normal vectors");
+			VALCANO_assert(p_normal.is_unit(), "The refraction function only works with normalized normal vectors");
 			T n_dot_i = dot(p_normal, p_incident);
 			T k = 1.0 - p_eta * p_eta * (1.0 - n_dot_i * n_dot_i);
 			if (k < 0.0) {
@@ -416,4 +411,4 @@ namespace mach {
 		}
 	};
 }
-#endif //MACH_VECTOR_HPP
+#endif //VALCANO_VECTOR_HPP

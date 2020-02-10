@@ -2,20 +2,20 @@
 // Created by mtesseract on 6/5/19.
 //
 
-#ifndef MACH_MATRIX_HPP
-#define MACH_MATRIX_HPP
+#ifndef VALCANO_MATRIX_HPP
+#define VALCANO_MATRIX_HPP
 
 #include <algorithm>
 #include <functional>
-#include "math/linalg/Vector.hpp"
 #include <memory>
-#include <auxiliary/exceptions/NotImplemented.hpp>
+#include <math/linalg/Vector.hpp>
+#include <aux/exceptions/NotImplemented.hpp>
 
 /*
  * Access is [row][column]
  */
 
-namespace mach {
+namespace mt {
 	template<typename T, std::size_t H, std::size_t W>
 	class Matrix {
 		union {
@@ -296,4 +296,4 @@ namespace mach {
 	};
 }
 
-#endif //MACH_MATRIX_HPP
+#endif //VALCANO_MATRIX_HPP

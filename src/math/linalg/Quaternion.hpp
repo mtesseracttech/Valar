@@ -6,13 +6,13 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnested-anon-types"
 #pragma clang diagnostic ignored "-Wgnu-anonymous-struct"
-#ifndef MACH_QUATERNION_HPP
-#define MACH_QUATERNION_HPP
+#ifndef VALCANO_QUATERNION_HPP
+#define VALCANO_QUATERNION_HPP
 
 #include <auxiliary/exceptions/NotImplemented.hpp>
 #include "Rotations.hpp"
 
-namespace mach {
+namespace mt {
 	template<typename T>
 	class Quaternion {
 	public:
@@ -221,7 +221,7 @@ namespace mach {
 		//Angle Axis
 		inline static Quaternion from_angle_axis(T p_theta, const Vector<T, 3> &p_n) {
 			Vector<T, 3> n = p_n.normalized();
-			//mach_assert(p_n.is_unit(), "You can only construct a quaternion from an angle-axis with a normalized axis");
+			//VALCANO_assert(p_n.is_unit(), "You can only construct a quaternion from an angle-axis with a normalized axis");
 			T st = std::sin(p_theta / 2.0);
 			T ct = std::cos(p_theta / 2.0);
 			return Quaternion(ct, n * st);
@@ -352,5 +352,5 @@ namespace mach {
 	};
 }
 
-#endif //MACH_QUATERNION_HPP
+#endif //VALCANO_QUATERNION_HPP
 #pragma clang diagnostic pop

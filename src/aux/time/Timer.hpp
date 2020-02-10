@@ -2,8 +2,8 @@
 // Created by mtesseract on 23-6-19.
 //
 
-#ifndef MACH_TIMER_HPP
-#define MACH_TIMER_HPP
+#ifndef VALCANO_TIMER_HPP
+#define VALCANO_TIMER_HPP
 
 #include <chrono>
 #include <string>
@@ -29,4 +29,4 @@ namespace mt {
 }
 
 
-#endif //MACH_TIMER_HPP
+#endif //VALCANO_TIMER_HPP

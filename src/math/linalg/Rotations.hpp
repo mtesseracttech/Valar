@@ -2,12 +2,12 @@
 // Created by mtesseract on 6/11/19.
 //
 
-#ifndef MACH_ROTATIONS_HPP
-#define MACH_ROTATIONS_HPP
+#ifndef VALCANO_ROTATIONS_HPP
+#define VALCANO_ROTATIONS_HPP
 
 #include <math/util/MathUtils.hpp>
 
-namespace mach {
+namespace mt {
 	enum RotationOrder {
 		PHB,
 		PBH,
@@ -83,4 +83,4 @@ namespace mach {
 
 }
 
-#endif //MACH_ROTATIONS_HPP
+#endif //VALCANO_ROTATIONS_HPP

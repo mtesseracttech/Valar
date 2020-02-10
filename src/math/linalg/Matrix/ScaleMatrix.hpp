@@ -2,14 +2,14 @@
 // Created by mtesseract on 6/24/19.
 //
 
-#ifndef MACH_SCALEMATRIX_HPP
-#define MACH_SCALEMATRIX_HPP
+#ifndef VALCANO_SCALEMATRIX_HPP
+#define VALCANO_SCALEMATRIX_HPP
 
 #include <math/linalg/LinAlgTypes.hpp>
-#include <auxiliary/exceptions/NotImplemented.hpp>
+#include <aux/exceptions/NotImplemented.hpp>
 #include "Matrix.hpp"
 
-namespace mach {
+namespace mt {
 	template<typename T>
 	class ScaleMatrix {
 
@@ -40,7 +40,7 @@ namespace mach {
 		}
 
 		inline static ScaleMatrix scale_along_direction(const Vector3<T> &p_n, T p_k) {
-			mach_assert(p_n.is_unit(),
+			VALCANO_assert(p_n.is_unit(),
 			            "You can only create a scale matrix along a normalized vector");
 			T km = p_k - 1.0;
 			return ScaleMatrix(1.0 + km * p_n.x() * p_n.x(), km * p_n.x() * p_n.y(), km * p_n.x(), *p_n.z(),
@@ -58,4 +58,4 @@ namespace mach {
 	};
 }
 
-#endif //MACH_SCALEMATRIX_HPP
+#endif //VALCANO_SCALEMATRIX_HPP

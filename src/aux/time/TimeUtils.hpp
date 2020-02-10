@@ -2,8 +2,8 @@
 // Created by mtesseract on 6/23/19.
 //
 
-#ifndef MACH_TIMEUTILS_HPP
-#define MACH_TIMEUTILS_HPP
+#ifndef VALCANO_TIMEUTILS_HPP
+#define VALCANO_TIMEUTILS_HPP
 
 #include <string>
 #include <chrono>
@@ -26,4 +26,4 @@ namespace mt{
 	};
 }
 
-#endif //MACH_TIMEUTILS_HPP
+#endif //VALCANO_TIMEUTILS_HPP

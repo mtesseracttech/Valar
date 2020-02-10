@@ -2,16 +2,16 @@
 // Created by mtesseract on 6/11/19.
 //
 
-#ifndef MACH_ROTATIONMATRIX_HPP
-#define MACH_ROTATIONMATRIX_HPP
+#ifndef VALCANO_ROTATIONMATRIX_HPP
+#define VALCANO_ROTATIONMATRIX_HPP
 
 #include <math/linalg/Quaternion.hpp>
-#include <auxiliary/exceptions/NotImplemented.hpp>
+#include <aux/exceptions/NotImplemented.hpp>
 #include <math/linalg/LinAlgTypes.hpp>
 #include "Matrix.hpp"
 
 
-namespace mach {
+namespace mt {
 	template<typename T>
 	class RotationMatrix {
 		Matrix3 <T> m_matrix;
@@ -77,7 +77,7 @@ namespace mach {
 
 		//Angle Axis
 		static inline RotationMatrix from_angle_axis(T p_theta, const Vector3 <T> &p_n) {
-			mach_assert(p_n.is_unit(),
+			valcano_assert(p_n.is_unit(),
 			            "You can only construct a RotationMatrix from an angle-axis with a normalized axis");
 			T c = std::cos(p_theta);
 			T s = std::sin(p_theta);
@@ -124,7 +124,7 @@ namespace mach {
 		}
 
 		inline static RotationMatrix from_mat3(const Matrix3 <T> &p_matrix) {
-			mach_assert(approx_eq<T>(p_matrix[0].dot(p_matrix[1]), 0.0) &&
+			VALCANO_assert(approx_eq<T>(p_matrix[0].dot(p_matrix[1]), 0.0) &&
 			            approx_eq<T>(p_matrix[1].dot(p_matrix[2]), 0.0) &&
 			            approx_eq<T>(p_matrix[2].dot(p_matrix[0]), 0.0),
 			            "This is not a valid matrix that describes a rotation");
@@ -174,4 +174,4 @@ namespace mach {
 	};
 }
 
-#endif //MACH_ROTATIONMATRIX_HPP
+#endif //VALCANO_ROTATIONMATRIX_HPP
