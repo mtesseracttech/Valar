@@ -37,13 +37,13 @@ namespace mt::gfx::mtvk {
         vk::PhysicalDeviceFeatures features;
         vk::PhysicalDeviceProperties properties;
 
-        QueueFamilyIndices indices;
-
         vk::Queue graphics_queue;
 		vk::Queue present_queue;
 
+		QueueFamilyIndices indices;
+
     public:
-        Device(const std::shared_ptr<Surface>& surface) : surface(surface){}
+        explicit Device(const std::shared_ptr<Surface>& surface) : surface(surface){}
 
         ~Device() = default;
 
