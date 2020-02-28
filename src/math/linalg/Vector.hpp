@@ -13,11 +13,13 @@
 #include <algorithm>
 #include <functional>
 #include <math/util/NumberTraits.hpp>
-#include <aux/MachAssertion.hpp>
+#include <initializer_list>
 
 namespace mt {
 	template<typename T, std::size_t N>
 	class Vector {
+		static_assert(N > 1, "Vector can only be initialized with a size of 1 or more");
+
 		std::array<T, N> m_data;
 	public:
 		Vector() : m_data{0} {}
@@ -38,6 +40,10 @@ namespace mt {
 
 		template<typename... Args, typename = typename std::enable_if<sizeof...(Args) == N>::type>
 		explicit Vector(Args &&... p_values) : m_data{static_cast<T>(std::forward<Args>(p_values))...} {}
+
+		Vector(const std::initializer_list<T>& p_elems) : m_data(p_elems){
+			static_assert(p_elems.size() == N, "Initializer list length needs to be equal to the vector size");
+		}
 
 		static constexpr Vector zero() {
 			return Vector(0);

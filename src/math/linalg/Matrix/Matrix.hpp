@@ -18,6 +18,8 @@
 namespace mt {
 	template<typename T, std::size_t H, std::size_t W>
 	class Matrix {
+		static_assert(H > 1 && W > 1, "Matrix can only be initialized with dimensions of 1 or more");
+
 		union {
 			std::array<T, H * W> m_data;
 			std::array<Vector<T, W>, H> m_rows;

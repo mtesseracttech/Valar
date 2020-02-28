@@ -8,9 +8,7 @@
 #include "Shader.hpp"
 
 namespace mt::gfx::mtvk {
-    Shader::Shader(const std::shared_ptr<Device> &device, const std::string &module_name, ShaderSourceType module_type) : device(device), shader_name(module_name), module_type(module_type) {
-
-    }
+    Shader::Shader(const std::shared_ptr<Device> &device, const std::string &module_name, ShaderSourceType module_type) : device(device), shader_name(module_name), module_type(module_type) {}
 
     void Shader::process_glsl_module(const std::string &module_name) {
         auto sources = find_sources(glsl_type_ext_pairs, module_name);
