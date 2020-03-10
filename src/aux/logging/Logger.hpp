@@ -45,7 +45,7 @@ namespace mt {
 
 		template<typename T>
 		static void log(const T &p_message_object, LogType p_level = Info) {
-			log(util::string::to_str(p_message_object), p_level);
+			log(to_str(p_message_object), p_level);
 		}
 
 		static void set_log_level(LogLevel p_level);

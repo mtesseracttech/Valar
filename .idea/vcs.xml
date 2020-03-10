@@ -13,6 +13,7 @@
     <mapping directory="$PROJECT_DIR$/libs/shaderc/third_party/spirv-cross" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/libs/shaderc/third_party/spirv-headers" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/libs/shaderc/third_party/spirv-tools" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/spirv-cross" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/libs/spirv_cross" vcs="Git" />
   </component>
 </project>

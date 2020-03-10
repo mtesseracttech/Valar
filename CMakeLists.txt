@@ -6,10 +6,13 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+if(APPLE)
+    set(CMAKE_MACOSX_RPATH 1)
+endif()
+
 #Sets a base path for the includes so that they can be used in the same way as in Visual Studio/Codeblocks
 set(BASEPATH "${CMAKE_SOURCE_DIR}/src")
 include_directories("${BASEPATH}")
-
 
 #Adding GLFW
 option(GLFW_BUILD_DOCS OFF)
@@ -35,6 +38,9 @@ option(INSTALL_GTEST OFF)
 
 add_subdirectory(libs/shaderc)
 
+#Adding SPIRV-Cross
+add_subdirectory(libs/shaderc/third_party/spirv-cross)
+
 
 if(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
@@ -42,11 +48,13 @@ else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -std=c++17")
 endif()
 
+
 include_directories(src/
                     libs/assimp/include/
                     libs/glfw/include/
                     libs/shaderc/libshaderc/include/
-                    libs/shaderc/libshaderc_spvc/include/)
+                    libs/shaderc/libshaderc_spvc/include/
+                    libs/shaderc/third_party/spirv-cross)
 
 file(GLOB_RECURSE PROJECT_HEADERS src/*.hpp)
 file(GLOB_RECURSE PROJECT_SOURCES src/*.cpp)
@@ -74,7 +82,7 @@ add_definitions(-DGLFW_INCLUDE_NONE
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS}
                ${PROJECT_SHADERS} ${PROJECT_CONFIGS})
 
-target_link_libraries(${PROJECT_NAME} assimp glfw shaderc ${GLFW_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} assimp glfw shaderc spirv-cross-core ${GLFW_LIBRARIES})
 
 #Finding and linking Vulkan
 find_package (Vulkan)
@@ -83,7 +91,7 @@ if (Vulkan_FOUND)
     include_directories(${Vulkan_INCLUDE_DIRS})
     target_link_libraries (${PROJECT_NAME} ${Vulkan_LIBRARIES})
     message(STATUS "Vulkan Include dirs: ${Vulkan_INCLUDE_DIRS} and libs: ${Vulkan_LIBRARIES}")
-endif (Vulkan_FOUND)
+endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})

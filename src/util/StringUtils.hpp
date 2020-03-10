@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <sstream>
 
-namespace mt::util::string {
+namespace mt {
     std::string to_upper(const std::string &input);
 
     std::string to_lower(const std::string & input);
