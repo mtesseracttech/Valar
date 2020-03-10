@@ -32,10 +32,10 @@ namespace mt::gfx::mtvk {
             }
 
             std::string severity_string = vk::to_string(message_severity);
-            severity_string = util::string::to_upper(severity_string.substr(2, severity_string.size() - 4));
+            severity_string = to_upper(severity_string.substr(2, severity_string.size() - 4));
 
             std::string type_string = vk::to_string(message_type);
-            type_string = util::string::to_upper(type_string.substr(2, type_string.size() - 4));
+            type_string = to_upper(type_string.substr(2, type_string.size() - 4));
 
             std::stringstream message;
             message << "[VK-" << type_string << "][" << severity_string << "]:";

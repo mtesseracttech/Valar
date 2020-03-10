@@ -26,9 +26,6 @@ option(ASSIMP_BUILD_SAMPLES OFF)
 option(ASSIMP_BUILD_TESTS OFF)
 add_subdirectory(libs/assimp)
 
-#Adding SPIRV-Cross
-add_subdirectory(libs/spirv-cross)
-
 #Adding shaderc
 option(SHADERC_ENABLE_TESTS OFF)
 option(EFFCEE_BUILD_TESTING OFF)
@@ -40,6 +37,9 @@ option(EEFCEE_BUILD_TESTING OFF)
 option(INSTALL_GTEST OFF)
 
 add_subdirectory(libs/shaderc)
+
+#Adding SPIRV-Cross
+add_subdirectory(libs/shaderc/third_party/spirv-cross)
 
 
 if(MSVC)
@@ -54,7 +54,7 @@ include_directories(src/
                     libs/glfw/include/
                     libs/shaderc/libshaderc/include/
                     libs/shaderc/libshaderc_spvc/include/
-                    libs/spirv-cross/)
+                    libs/shaderc/third_party/spirv-cross)
 
 file(GLOB_RECURSE PROJECT_HEADERS src/*.hpp)
 file(GLOB_RECURSE PROJECT_SOURCES src/*.cpp)
@@ -82,7 +82,7 @@ add_definitions(-DGLFW_INCLUDE_NONE
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS}
                ${PROJECT_SHADERS} ${PROJECT_CONFIGS})
 
-target_link_libraries(${PROJECT_NAME} assimp glfw shaderc ${GLFW_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} assimp glfw shaderc spirv-cross-core ${GLFW_LIBRARIES})
 
 #Finding and linking Vulkan
 find_package (Vulkan)

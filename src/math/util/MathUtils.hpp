@@ -1,13 +1,13 @@
 //
-// Created by mtesseract on 6/17/19.
+// Created by MTesseracT on 29/02/2020.
 //
 
 #ifndef VALCANO_MATHUTILS_HPP
 #define VALCANO_MATHUTILS_HPP
 
-#include <math/linalg/LinAlgTypes.hpp>
+#include <cstdlib>
 
-namespace mt::math {
+namespace mt::math{
 	constexpr double e = 2.71828182845904523536;
 	constexpr double pi = 3.14159265358979323846;
 	constexpr double deg_to_rad = pi / 180.0;
@@ -31,6 +31,21 @@ namespace mt::math {
 	template <typename T>
 	inline int sign(const T &p_val) {
 		return (T(0) < p_val) - (p_val < T(0));
+	}
+
+	int round_to_nearest_multiple(int n, int m)
+	{
+		if (m == 0)
+			return n;
+
+		int rem = std::abs(n) % m;
+		if (rem == 0)
+			return n;
+
+		if (n < 0)
+			return -(std::abs(n) - rem);
+		else
+			return n + m - rem;
 	}
 }
 

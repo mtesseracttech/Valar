@@ -4,7 +4,7 @@
 
 #include "StringUtils.hpp"
 
-namespace mt::util::string {
+namespace mt {
     std::string to_upper(const std::string &input) {
         std::string s (input);
         std::transform(s.begin(), s.end(), s.begin(),[](unsigned char c){ return std::toupper(c); } );

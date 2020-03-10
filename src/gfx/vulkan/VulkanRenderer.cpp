@@ -3,6 +3,7 @@
 //
 
 #include <aux/logging/Logger.hpp>
+#include <gfx/vulkan/vertexbuffer/VertexLayout.hpp>
 #include "VulkanRenderer.hpp"
 
 namespace mt::gfx::mtvk {
@@ -30,6 +31,10 @@ namespace mt::gfx::mtvk {
         //Depends on the shaders
         test_shader = std::make_shared<mtvk::Shader>(device, "base", mtvk::ShaderSourceType::GLSL);
         test_shader->create();
+
+        for(const auto& module : test_shader->get_shader_meta_modules()){
+	        DynamicVertexLayout layout(module, 0);
+        }
 
         test_shader_pipeline = std::make_shared<mtvk::GraphicsPipeline>(device, test_shader);
         test_shader_pipeline->create(*render_pass, *swapchain);
