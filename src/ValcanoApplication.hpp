@@ -5,26 +5,30 @@
 #ifndef VALCANO_VALCANOAPPLICATION_HPP
 #define VALCANO_VALCANOAPPLICATION_HPP
 
-#include <iostream>
-#include <gfx/vulkan/VulkanRenderer.hpp>
 #include <aux/logging/Logger.hpp>
+#include <gfx/vulkan/VulkanRenderer.hpp>
 #include <gfx/window/WindowManager.hpp>
+#include <iostream>
+
 #include "gfx/window/ContextWindow.hpp"
 
-namespace mt{
-	class ValcanoApplication {
-        std::shared_ptr<gfx::WindowManager> window_manager;
-        std::shared_ptr<gfx::ContextWindow> main_window;
-		std::shared_ptr<gfx::Renderer> renderer;
-	public:
-		ValcanoApplication(uint32_t win_width, uint32_t win_height, const std::string& app_name);
+namespace mt {
+class ValcanoApplication {
+    std::shared_ptr<gfx::WindowManager> window_manager;
+    std::shared_ptr<gfx::ContextWindow> main_window;
+    std::shared_ptr<gfx::Renderer> renderer;
 
-		void run();
-	};
-}
+public:
+    ValcanoApplication(uint32_t win_width, uint32_t win_height,
+        const std::string& app_name);
 
-int main(){
-    mt::ValcanoApplication app(800, 600,"Valcano Testing");
+    void run();
+};
+} // namespace mt
+
+int main()
+{
+    mt::ValcanoApplication app(800, 600, "Valcano Testing");
 
     try {
         app.run();
@@ -35,7 +39,4 @@ int main(){
     return EXIT_SUCCESS;
 }
 
-
-
-
-#endif //VALCANO_VALCANOAPPLICATION_HPP
+#endif // VALCANO_VALCANOAPPLICATION_HPP

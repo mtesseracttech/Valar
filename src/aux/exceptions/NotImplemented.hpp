@@ -5,28 +5,35 @@
 #ifndef VALCANO_NOTIMPLEMENTED_HPP
 #define VALCANO_NOTIMPLEMENTED_HPP
 
-#include <string>
 #include <stdexcept>
+#include <string>
 
 namespace mt::aux {
-	class NotImplemented : public std::logic_error {
-	private:
-		std::string m_text;
+class NotImplemented : public std::logic_error {
+private:
+    std::string m_text;
 
-		NotImplemented(const char *p_message, const char *p_function) : std::logic_error("Not Implemented") {
-			m_text = p_message;
-			m_text += " : ";
-			m_text += p_function;
-		};
+    NotImplemented(const char* p_message, const char* p_function)
+        : std::logic_error("Not Implemented")
+    {
+        m_text = p_message;
+        m_text += " : ";
+        m_text += p_function;
+    };
 
-	public:
+public:
+    NotImplemented()
+        : NotImplemented("Not Implememented", __FUNCTION__)
+    {
+    }
 
-		NotImplemented() : NotImplemented("Not Implememented", __FUNCTION__) {}
+    NotImplemented(const char* p_message)
+        : NotImplemented(p_message, __FUNCTION__)
+    {
+    }
 
-		NotImplemented(const char *p_message) : NotImplemented(p_message, __FUNCTION__) {}
+    virtual const char* what() const throw() { return m_text.c_str(); }
+};
+} // namespace mt::aux
 
-		virtual const char *what() const throw() { return m_text.c_str(); }
-	};
-}
-
-#endif //VALCANO_NOTIMPLEMENTED_HPP
+#endif // VALCANO_NOTIMPLEMENTED_HPP

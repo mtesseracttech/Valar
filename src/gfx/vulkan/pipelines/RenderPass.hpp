@@ -7,25 +7,24 @@
 
 #include <gfx/vulkan/display/Device.hpp>
 
-
 namespace mt::gfx::mtvk {
-    class Swapchain;
+class Swapchain;
 
-    class RenderPass {
-        std::shared_ptr<Device> device;
+class RenderPass {
+    std::shared_ptr<Device> device;
 
-        vk::RenderPass render_pass;
+    vk::RenderPass render_pass;
 
-    public:
-         explicit RenderPass(const std::shared_ptr<Device>& device);
-        ~RenderPass() = default;
+public:
+    explicit RenderPass(const std::shared_ptr<Device>& device);
+    ~RenderPass() = default;
 
-        void create(const Swapchain& swapchain);
+    void create(const Swapchain& swapchain);
 
-        void destroy();
+    void destroy();
 
-        vk::RenderPass get_render_pass() const;
-    };
-}
+    vk::RenderPass get_render_pass() const;
+};
+} // namespace mt::gfx::mtvk
 
-#endif //VALCANO_RENDERPASS_HPP
+#endif // VALCANO_RENDERPASS_HPP

@@ -7,27 +7,32 @@
 
 #include <spirv_cross.hpp>
 
-namespace mt::gfx{
-	class SpvReflection {
-		std::shared_ptr<spirv_cross::Compiler> compiler;
-		std::shared_ptr<spirv_cross::ShaderResources> resources;
-	public:
-		SpvReflection(const uint32_t * data, uint32_t size);
+namespace mt::gfx {
+class SpvReflection {
+    std::shared_ptr<spirv_cross::Compiler> compiler;
+    std::shared_ptr<spirv_cross::ShaderResources> resources;
 
-		explicit SpvReflection(const std::vector<uint32_t>& spv_source) : SpvReflection(spv_source.data(), spv_source.size()){}
+public:
+    SpvReflection(const uint32_t* data, uint32_t size);
 
-		std::shared_ptr<spirv_cross::ShaderResources> get_shader_reflection_resources() const;
+    explicit SpvReflection(const std::vector<uint32_t>& spv_source)
+        : SpvReflection(spv_source.data(), spv_source.size())
+    {
+    }
 
-		spirv_cross::SPIRType get_type_info(const spirv_cross::TypeID id) const;
+    std::shared_ptr<spirv_cross::ShaderResources>
+    get_shader_reflection_resources() const;
 
-		size_t get_struct_member_size(const spirv_cross::SPIRType id, uint32_t index) const;
+    spirv_cross::SPIRType get_type_info(const spirv_cross::TypeID id) const;
 
-		std::shared_ptr<spirv_cross::Compiler> get_compiler() const;
+    size_t get_struct_member_size(const spirv_cross::SPIRType id,
+        uint32_t index) const;
 
-		std::size_t get_base_type_size(const spirv_cross::SPIRType::BaseType type) const;
-	};
-}
+    std::shared_ptr<spirv_cross::Compiler> get_compiler() const;
 
+    std::size_t get_base_type_size(
+        const spirv_cross::SPIRType::BaseType type) const;
+};
+} // namespace mt::gfx
 
-
-#endif //VALCANO_SPVREFLECTION_HPP
+#endif // VALCANO_SPVREFLECTION_HPP

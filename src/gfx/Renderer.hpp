@@ -8,17 +8,18 @@
 #include <gfx/window/ContextWindow.hpp>
 
 namespace mt::gfx {
-    class Renderer{
-    protected:
-        std::shared_ptr<ContextWindow> window;
+class Renderer {
+protected:
+    std::shared_ptr<ContextWindow> window;
 
-    public:
-        explicit Renderer(std::shared_ptr<ContextWindow> window) : window(window){};
+public:
+    explicit Renderer(std::shared_ptr<ContextWindow> window)
+        : window(window) {};
 
-        virtual void draw() = 0;
+    virtual void draw() = 0;
 
-        virtual void terminate() = 0;
-    };
-}
+    virtual void terminate() = 0;
+};
+} // namespace mt::gfx
 
-#endif //VALCANO_RENDERER_HPP
+#endif // VALCANO_RENDERER_HPP

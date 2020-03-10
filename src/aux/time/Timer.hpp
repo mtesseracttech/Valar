@@ -9,24 +9,26 @@
 #include <string>
 
 namespace mt {
-	class Timer {
-	private:
-		typedef std::chrono::system_clock ChronoClock;
-		typedef std::chrono::duration<double, std::ratio<1> > ChronoSecond;
-		std::chrono::time_point<ChronoClock> m_start;
+class Timer {
+private:
+    typedef std::chrono::system_clock ChronoClock;
+    typedef std::chrono::duration<double, std::ratio<1>> ChronoSecond;
+    std::chrono::time_point<ChronoClock> m_start;
 
-	public:
-		Timer() : m_start(ChronoClock::now()) {}
+public:
+    Timer()
+        : m_start(ChronoClock::now())
+    {
+    }
 
-		void reset() {
-			m_start = ChronoClock::now();
-		}
+    void reset() { m_start = ChronoClock::now(); }
 
-		double get_elapsed() const {
-			return std::chrono::duration_cast<ChronoSecond>(ChronoClock::now() - m_start).count();
-		}
-	};
-}
+    double get_elapsed() const
+    {
+        return std::chrono::duration_cast<ChronoSecond>(ChronoClock::now() - m_start)
+            .count();
+    }
+};
+} // namespace mt
 
-
-#endif //VALCANO_TIMER_HPP
+#endif // VALCANO_TIMER_HPP
